@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<body>
+
+<?php
+$servername = "localhost";
+$username = "username";
+$password = "password";
+$dbname = "MakerSiteDB";
+
+$3d = '3D Making';
+$laser = 'Laser Cutting';
+$cricut = 'Cricut Maker';
+
+$vid ='Video';
+$article = 'Website Article';
+
+// Create connection
+$conn = new mysqli_connect($servername, $username, $password,$dbname);
+
+// Check connection
+if (!$conn) {
+  die("Connection Failure Message: " . mysqli_connect_error());
+}
+echo "Connected successfully";
+
+//Insert one test value into tutorial table
+$sql = "Insert INTO Tutorial (TutorialName, TutorialType, TutorialTheme, TutorialLink)
+VALUE ('testName01', 'testType01', 'testTheme01', 'testLink01')";
+
+//Test case 1: check the above insert
+if(!$conn -> query($sql)){
+    echo "Test 1: Error inserting" . $sql . "<br>" . $conn-> error;
+}else{
+    echo "Test 1: Data inserted correctly.";
+}
+
+
+//Insert Laser Cutting Video into tutorial table
+$sql = "INSERT INTO Tutorial (TutorialName, TutorialType, TutorialTheme, TutorialLink)
+VALUE ('How to use Laser Cutting', $vid , $laser , 'https://www.youtube.com/watch?v=sdACSB8GH3Y')";
+
+//TestCase2: to check the insertion for Laser Cutting Video
+if(!$conn -> query($sql)){
+    echo "Test 2: Error inserting Laser Cutting video" . $sql . "<br>" . $conn-> error;
+}else{
+    echo "Test 2: Data inserted correctly.";
+}
+
+
+//Insert 3D Printer Video into tutorial table
+$sql = "INSERT INTO Tutorial (TutorialName, TutorialType, TutorialTheme, TutorialLink)
+VALUE ('Using 3D Printer to Make Profit', $vid , $3d , 'https://www.youtube.com/watch?v=PceI1AtgFvo')";
+
+//TestCase3: to check the insertion for 3D Printer Video- Profit
+if(!$conn -> query($sql)){
+    echo "Test 3: Error inserting 3D Printing video(profit video)" . $sql . "<br>" . $conn-> error;
+}else{
+    echo "Test 3: Data inserted correctly.";
+}
+
+
+//Insert Beginner's Guide for 3D Printer Video into tutorial table
+$sql = "INSERT INTO Tutorial (TutorialName, TutorialType, TutorialTheme, TutorialLink)
+VALUE ('Beginner's Guide to 3D Printer', $vid , $3d , 'https://www.youtube.com/watch?v=T-Z3GmM20JM')";
+
+//TestCase4: to check the insertion for 3D Printer Video
+if(!$conn -> query($sql)){
+    echo "Test 4: Error inserting 3D Printing video(Beginner Guide Video)" . $sql . "<br>" . $conn-> error;
+}else{
+    echo "Test 3: Data inserted correctly.";
+}
+
+
+//Insert Cricut Maker Video into tutorial table
+$sql = "INSERT INTO Tutorial (TutorialName, TutorialType, TutorialTheme, TutorialLink)
+VALUE ('How to use a Cricut', $vid, $cricut, 'https://www.youtube.com/watch?v=F0qzvg_xf9c')";
+
+//TestCase5: to check the insertion for Cricut Maker Video
+if(!$conn -> query($sql)){
+    echo "Test 5: Error inserting cricket maker video" . $sql . "<br>" . $conn-> error;
+}else{
+    eho "Test 5: Data inserted correctly.";
+}
+
+
+//Insert 3D Printing Article into tutorial table
+$sql = "INSERT INTO Tutorial (TutorialName, TutorialType, TutorialTheme, TutorialLink)
+VALUE ('Beginner's Guide for 3D Printing', $article, $3d, 'https://3dinsider.com/3d-printing-guide/')";
+
+//TestCase6: to check the insertion for Cricut Maker Video
+if(!$conn -> query($sql)){
+echo "Test 6: Error inserting 3d Printing Article" . $sql . "<br>" . $conn-> error;
+}else{
+eho "Test 6: Data inserted correctly.";
+}
+
+
+$conn ->close
+?>
+
+</body>
+</html>
