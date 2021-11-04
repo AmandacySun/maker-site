@@ -8,10 +8,12 @@ $username = "username";
 $password = "password";
 $dbname = "MakerSiteDB";
 
+
 //variables for tutorial theme
 $3d = '3D Making';
 $laser = 'Laser Cutting';
 $cricut = 'Cricut Maker';
+
 
 //variable for tutorial type
 $vid ='Video';
@@ -25,6 +27,7 @@ if (!$conn) {
   die("Connection Failure Message: " . mysqli_connect_error());
 }
 echo "Connected successfully";
+
 
 // sql to create tutorial table
 $sql_tutorial = "CREATE TABLE Tutorial (
@@ -131,6 +134,7 @@ if ($conn->query($sql_past_events) === TRUE) {
     echo "Error creating Past Event table: " . $conn->error;
 }
 
+
 // sql to create Future Events table
 $sql_future_events = "CREATE TABLE FutureEvents (
     id INT(6) UNSIGNED AUTO_INCREMENT PRIMARY KEY,
@@ -148,6 +152,7 @@ if ($conn->query($sql_future_events) === TRUE) {
     echo "Error creating Future Events table: " . $conn->error;
 }
 
+
 // sql to create Log In Credential table
 $sql_log_in = "CREATE TABLE LogIn (
     id INT(6) UNSIGNED AUTO_INCREMENT PRIMARY KEY,
@@ -159,11 +164,97 @@ $sql_log_in = "CREATE TABLE LogIn (
     MemberType VARCHAR(20) NOT NULL
 )";
 
+
+//testing connection of the login table 
 if ($conn->query($sql_log_in) === TRUE) {
     echo "Table Log In created successfully";
 } else {
     echo "Error creating Log In table: " . $conn->error;
 }
+
+//Insert one test value into log in table
+$sql_log_in = "Insert INTO LogIn (id, FirstName, LastName, UserName,Password, Email, MemberType )
+VALUE (1, 'testFName01','testLName01', 'testUName01','testPWord01', 'testEmail01', 'testType01')";
+
+//ErrorCheck1: check the above insert
+if(!$conn -> query($sql_log_in)){
+    echo "Log In Error 1: Error inserting" . $sql_log_in . "<br>" . $conn-> error;
+}else{
+    echo "Log In Message 1: Data inserted correctly.";
+}
+
+
+//Log_In2: Insert one test value into log in table
+$sql_log_in = "Insert INTO LogIn (id, FirstName, LastName, UserName,Password, Email, MemberType )
+VALUE (2, 'Chang','Guo', 'cguo1','test', 'chang.guo@vanderbilt.edu', 'exec')";
+
+//ErrorCheck2: check the above insert
+if(!$conn -> query($sql_log_in)){
+    echo "Log In Error 2: Error inserting" . $sql_log_in . "<br>" . $conn-> error;
+}else{
+    echo "Log In Message 2: Data inserted correctly.";
+}
+
+
+//Log_In3: Insert one test value into log in table
+$sql_log_in = "Insert INTO LogIn (id, FirstName, LastName, UserName,Password, Email, MemberType )
+VALUE (3, 'XXX','XXX', 'admin','test', 'MakeClub@vanderbilt.edu', 'exec')";
+
+//ErrorCheck3: check the above insert
+if(!$conn -> query($sql_log_in)){
+    echo "Log In Error 3: Error inserting" . $sql_log_in . "<br>" . $conn-> error;
+}else{
+    echo "Log In Message 3: Data inserted correctly.";
+}
+
+
+//Log_In4: Insert one test value into log in table
+$sql_log_in = "Insert INTO LogIn (id, FirstName, LastName, UserName,Password, Email, MemberType )
+VALUE (4, 'XXXX','XXXX', 'finance','test', 'MakeClub@vanderbilt.edu', 'exec')";
+
+//ErrorCheck4: check the above insert
+if(!$conn -> query($sql_log_in)){
+    echo "Log In Error 4: Error inserting" . $sql_log_in . "<br>" . $conn-> error;
+}else{
+    echo "Log In Message 4: Data inserted correctly.";
+}
+
+
+//Log_In5: Insert one test value into log in table
+$sql_log_in = "Insert INTO LogIn (id, FirstName, LastName, UserName,Password, Email, MemberType )
+VALUE (5, 'XXXXX','XXXXX', 'admin2','test', 'MakeClub@vanderbilt.edu', 'exec')";
+
+//ErrorCheck5: check the above insert
+if(!$conn -> query($sql_log_in)){
+    echo "Log In Error 5: Error inserting" . $sql_log_in . "<br>" . $conn-> error;
+}else{
+    echo "Log In Message 5: Data inserted correctly.";
+}
+
+
+//Log_In6: Insert one test value into log in table
+$sql_log_in = "Insert INTO LogIn (id, FirstName, LastName, UserName,Password, Email, MemberType )
+VALUE (6, 'Qu','Chang', 'qchang1','test', 'qu.chang@vanderbilt.edu', 'user')";
+
+//ErrorCheck6: check the above insert
+if(!$conn -> query($sql_log_in)){
+    echo "Log In Error 6: Error inserting" . $sql_log_in . "<br>" . $conn-> error;
+}else{
+    echo "Log In Message 6: Data inserted correctly.";
+}
+
+
+//Log_In7: Insert one test value into log in table
+$sql_log_in = "Insert INTO LogIn (id, FirstName, LastName, UserName,Password, Email, MemberType )
+VALUE (7, 'Amanda','Sun', 'csun1','test', 'chuyun.sun@vanderbilt.edu', 'user')";
+
+//ErrorCheck7: check the above insert
+if(!$conn -> query($sql_log_in)){
+    echo "Log In Error 7: Error inserting" . $sql_log_in . "<br>" . $conn-> error;
+}else{
+    echo "Log In Message 7: Data inserted correctly.";
+}
+
 
 // sql to create User Comment table
 $sql_user_comments = "CREATE TABLE UserComment (
@@ -173,11 +264,134 @@ $sql_user_comments = "CREATE TABLE UserComment (
     Message VARCHAR(1000) NOT NULL
 )";
 
+//testing connection of the user comment table 
 if ($conn->query($sql_user_comments) === TRUE) {
     echo "Table User Comments created successfully";
 } else {
     echo "Error creating User Comments table: " . $conn->error;
 }
+
+
+//Insert one test value into user comment table
+$sql_user_comments = "Insert INTO UserComment (id, Name, Email, Message)
+VALUE (1, 'testName01', 'testEmail01', 'testMessage01')";
+
+//ErrorCheck1: check the above insert
+if(!$conn -> query($sql_user_comments)){
+    echo "User Comment Error 1: Error inserting" . $sql_user_comments . "<br>" . $conn-> error;
+}else{
+    echo "User Comment Message 1: Data inserted correctly.";
+}
+
+
+//User_Comment 2: Insert one test value into user comment table
+$sql_user_comments = "Insert INTO UserComment (id, Name, Email, Message)
+VALUE (2, 'Gabby', 'gabby.h@gmail.com', 'I like this event')";
+
+//ErrorCheck2: check the above insert
+if(!$conn -> query($sql_user_comments)){
+    echo "User Comment Error 2: Error inserting" . $sql_user_comments . "<br>" . $conn-> error;
+}else{
+    echo "User Comment Message 2: Data inserted correctly.";
+}
+
+
+//User_Comment 3: Insert one test value into user comment table
+$sql_user_comments = "Insert INTO UserComment (id, Name, Email, Message)
+VALUE (3, 'Jake', 'Jake.hop@vanderbilt.edu', 'I like this event lol')";
+
+//ErrorCheck 3: check the above insert
+if(!$conn -> query($sql_user_comments)){
+    echo "User Comment Error 3 Error inserting" . $sql_user_comments . "<br>" . $conn-> error;
+}else{
+    echo "User Comment Message 3: Data inserted correctly.";
+}
+
+
+//User_Comment 4: Insert one test value into user comment table
+$sql_user_comments = "Insert INTO UserComment (id, Name, Email, Message)
+VALUE (4, 'Teressa', 'teressa@gmail.com', 'I wish to see more laser cutting articles')";
+
+//ErrorCheck4: check the above insert
+if(!$conn -> query($sql_user_comments)){
+    echo "User Comment Error 4: Error inserting" . $sql_user_comments . "<br>" . $conn-> error;
+}else{
+    echo "User Comment Message 4: Data inserted correctly.";
+}
+
+
+//User_Comment 5: Insert one test value into user comment table
+$sql_user_comments = "Insert INTO UserComment (id, Name, Email, Message)
+VALUE (5, 'Janet', 'janet099@gmail.com', 'I wish to see more 3d printing videos.')";
+
+//ErrorCheck5: check the above insert
+if(!$conn -> query($sql_user_comments)){
+    echo "User Comment Error 5: Error inserting" . $sql_user_comments . "<br>" . $conn-> error;
+}else{
+    echo "User Comment Message 5: Data inserted correctly.";
+}
+
+
+//User_Comment 6: Insert one test value into user comment table
+$sql_user_comments = "Insert INTO UserComment (id, Name, Email, Message)
+VALUE (6, 'shx', 'shx@yahoo.com', 'lol')";
+
+//ErrorCheck6: check the above insert
+if(!$conn -> query($sql_user_comments)){
+    echo "User Comment Error 6: Error inserting" . $sql_user_comments . "<br>" . $conn-> error;
+}else{
+    echo "User Comment Message 6: Data inserted correctly.";
+}
+
+
+//User_Comment 7: Insert one test value into user comment table
+$sql_user_comments = "Insert INTO UserComment (id, Name, Email, Message)
+VALUE (7, 'anonymousmonkey', 'fakeemail@gmail.com', 'justing saying hi')";
+
+//ErrorCheck7: check the above insert
+if(!$conn -> query($sql_user_comments)){
+    echo "User Comment Error 7: Error inserting" . $sql_user_comments . "<br>" . $conn-> error;
+}else{
+    echo "User Comment Message 7: Data inserted correctly.";
+}
+
+
+//User_Comment 8: Insert one test value into user comment table
+$sql_user_comments = "Insert INTO UserComment (id, Name, Email, Message)
+VALUE (8, 'laserFan', 'laserfan@gmail.com', 'When is the next laser cutting event?')";
+
+//ErrorCheck8: check the above insert
+if(!$conn -> query($sql_user_comments)){
+    echo "User Comment Error 8: Error inserting" . $sql_user_comments . "<br>" . $conn-> error;
+}else{
+    echo "User Comment Message 8: Data inserted correctly.";
+}
+
+
+//User_Comment 9: Insert one test value into user comment table
+$sql_user_comments = "Insert INTO UserComment (id, Name, Email, Message)
+VALUE (9, 'secretcomplainer', 'complain@gmail.com', 'We need to have events MORE often!!!!!')";
+
+//ErrorCheck9: check the above insert
+if(!$conn -> query($sql_user_comments)){
+    echo "User Comment Error 9: Error inserting" . $sql_user_comments . "<br>" . $conn-> error;
+}else{
+    echo "User Comment Message 9: Data inserted correctly.";
+}
+
+
+//User_Comment 10: Insert one test value into user comment table
+$sql_user_comments = "Insert INTO UserComment (id, Name, Email, Message)
+VALUE (10, 'GHinkley', 'ghinkley@gmail.com', 
+'Who should I contact if I need more info about 3d printing? I am really interested in participating but I am not a member.')";
+
+//ErrorCheck9: check the above insert
+if(!$conn -> query($sql_user_comments)){
+    echo "User Comment Error 10: Error inserting" . $sql_user_comments . "<br>" . $conn-> error;
+}else{
+    echo "User Comment Message 10: Data inserted correctly.";
+}
+
 
 $conn ->close
 ?>
