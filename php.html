@@ -108,9 +108,9 @@ VALUE (6, 'Beginner's Guide for 3D Printing', $article, $3d, 'https://3dinsider.
 
 //ErrorCheck6: to check the insertion for Cricut Maker Video
 if(!$conn -> query($sql_tutorial)){
-echo "Error 6: Error inserting 3d Printing Article" . $sql_tutorial . "<br>" . $conn-> error;
-}else{
-eho "Message 6: Data inserted correctly.";
+    echo "Error 6: Error inserting 3d Printing Article" . $sql_tutorial . "<br>" . $conn-> error;
+} else{
+    eho "Message 6: Data inserted correctly.";
 }
 
 // sql to create Past Events table
@@ -131,6 +131,78 @@ if ($conn->query($sql_past_events) === TRUE) {
     echo "Error creating Past Event table: " . $conn->error;
 }
 
+//Insert event data into past event table
+$sql_past_events = "Insert INTO PastEvents (id, EventName, EventTime, Host, EventLocation,
+DifficultyLevel, EventTheme)
+VALUE (1, 'Buggies and Nuggies', 'Aug. 30th, 2019' , 'Maker Club' , 'The Wondry Floor 2',
+'No prior experience required', 'Build cars and race them while enjoying nuggets!')";
+
+//ErrorCheck2: to check the insertion for the event
+if(!$conn -> query($sql_past_events)){
+    echo "Error 1: Error inserting id 1 past event info" . $sql_past_events . "<br>" . $conn-> error;
+}else{
+    echo "Message 1: Data inserted correctly.";
+}
+
+//Insert event data into past event table
+$sql_past_events = "Insert INTO PastEvents (id, EventName, EventTime, Host, EventLocation,
+DifficultyLevel, EventTheme)
+VALUE (2, 'AI Speaker', 'Sept. 15th, 2019' , 'Maker Club' , 'Featheringill 134',
+'No prior experience required', 'Built Artificial Intelligence speaker that can facilitate day to day
+life. You can ask it to turn off or turn on your lights (and more) once connected to your room!')";
+
+//ErrorCheck2: to check the insertion for the event
+if(!$conn -> query($sql_past_events)){
+    echo "Error 2: Error inserting id 2 past event info" . $sql_past_events . "<br>" . $conn-> error;
+}else{
+    echo "Message 2: Data inserted correctly.";
+}
+
+
+//Insert event data into past event table
+$sql_past_events = "Insert INTO PastEvents (id, EventName, EventTime, Host, EventLocation,
+DifficultyLevel, EventTheme)
+VALUE (3, 'Paper Plane Party', 'Sep. 30th, 2019' , 'Maker Club' , 'Featheringill 136',
+'No prior experience required', 'Make paper plane that could travel the longest using
+whatever material you need! We have cardboard, leftover plastic plate, foam, and more!')";
+
+//ErrorCheck2: to check the insertion for the event
+if(!$conn -> query($sql_past_events)){
+    echo "Error 3: Error inserting id 3 past event info" . $sql_past_events . "<br>" . $conn-> error;
+}else{
+    echo "Message 3: Data inserted correctly.";
+}
+
+
+//Insert event data into past event table
+$sql_past_events = "Insert INTO PastEvents (id, EventName, EventTime, Host, EventLocation,
+DifficultyLevel, EventTheme)
+VALUE (4, 'Engineering Skills 101', 'Oct. 30th, 2019' , 'Maker Club' , 'The Wondry FLoor 2',
+'No prior experience required', 'Come to the Wondry to learn about relevant Engineering skills, such
+as laser cutting, soldering, and more!')";
+
+//ErrorCheck2: to check the insertion for the event
+if(!$conn -> query($sql_past_events)){
+    echo "Error 4: Error inserting id 4 past event info" . $sql_past_events . "<br>" . $conn-> error;
+}else{
+    echo "Message 4: Data inserted correctly.";
+}
+
+
+//Insert event data into past event table
+$sql_past_events = "Insert INTO PastEvents (id, EventName, EventTime, Host, EventLocation,
+DifficultyLevel, EventTheme)
+VALUE (5, 'Electric Mice', 'Nov. 15th, 2019' , 'Maker Club' , 'The Wondry FLoor 2',
+'No prior experience required', 'Come to the Wondry to build electric mice that runs around!
+Learn about soldering and laser cutting skills')";
+
+//ErrorCheck2: to check the insertion for the event
+if(!$conn -> query($sql_past_events)){
+echo "Error 5: Error inserting id 5 past event info" . $sql_past_events . "<br>" . $conn-> error;
+}else{
+echo "Message 5: Data inserted correctly.";
+}
+
 // sql to create Future Events table
 $sql_future_events = "CREATE TABLE FutureEvents (
     id INT(6) UNSIGNED AUTO_INCREMENT PRIMARY KEY,
@@ -146,6 +218,45 @@ if ($conn->query($sql_future_events) === TRUE) {
     echo "Table Future Events created successfully";
 } else {
     echo "Error creating Future Events table: " . $conn->error;
+}
+
+//Insert event data into tutorial table
+$sql_future_events = "Insert INTO FutureEvents (id, EventName, EventTime, Host, EventLocation,
+DifficultyLevel, EventTheme)
+VALUE (1, 'Maker Social Event', 'Nov. 17, 2021', 'Maker Club', 'Featheringill 134',
+'No prior experience required', 'Hang out with fellow makers and enjoy pizza!')";
+
+//ErrorCheck2: to check the insertion for Laser Cutting Video
+if(!$conn -> query($sql_future_events)){
+    echo "Error 1: Error inserting id 1 future event info" . $sql_future_events . "<br>" . $conn-> error;
+}else{
+    echo "Message 1: Data inserted correctly.";
+}
+
+//Insert event data into tutorial table
+$sql_future_events = "Insert INTO FutureEvents (id, EventName, EventTime, Host, EventLocation,
+DifficultyLevel, EventTheme)
+VALUE (2, 'De-stress Fest', 'Nov. 30, 2021', 'Maker Club', 'TBA', 'No prior experience required',
+'De-stress with the Maker Club before the finals!')";
+
+//ErrorCheck2: to check the insertion for Laser Cutting Video
+if(!$conn -> query($sql_future_events)){
+    echo "Error 2: Error inserting id 2 future event info" . $sql_future_events . "<br>" . $conn-> error;
+}else{
+    echo "Message 2: Data inserted correctly.";
+}
+
+//Insert event data into tutorial table
+$sql_future_events = "Insert INTO FutureEvents (id, EventName, EventTime, Host, EventLocation,
+DifficultyLevel, EventTheme)
+VALUE (3, 'Engineering 101', 'Jan. 17, 2021', 'Maker Club', 'TBA', 'No prior experience required',
+'Come learn about relevant Engineering skills, such as laser cutting, soldering, and more!')";
+
+//ErrorCheck2: to check the insertion for Laser Cutting Video
+if(!$conn -> query($sql_future_events)){
+    echo "Error 3: Error inserting id 3 future event info" . $sql_future_events . "<br>" . $conn-> error;
+}else{
+    echo "Message 3: Data inserted correctly.";
 }
 
 // sql to create Log In Credential table
