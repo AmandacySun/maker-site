@@ -209,6 +209,93 @@ echo "Message 5: Data inserted correctly.";
 }
 
 
+//Insert event data into past event table
+$sql_past_events = "Insert INTO PastEvents (id, EventName, EventTime, Host, EventLocation,
+DifficultyLevel, EventTheme)
+VALUE (6, 'Maker Social', 'Jan. 20th, 2020' , 'Maker Club' , 'The Wondry FLoor 2',
+'No prior experience required', 'Come to the Wondry to hang out with fellow makers!
+There will be Engineering games and prizes')";
+
+//ErrorCheck2: to check the insertion for the event
+if(!$conn -> query($sql_past_events)){
+    echo "Error 6: Error inserting id 6 past event info" . $sql_past_events . "<br>" . $conn-> error;
+}else{
+    echo "Message 6: Data inserted correctly.";
+}
+
+
+//Insert event data into past event table
+$sql_past_events = "Insert INTO PastEvents (id, EventName, EventTime, Host, EventLocation,
+DifficultyLevel, EventTheme)
+VALUE (7, 'Robot Battling', 'Feb. 15th, 2020' , 'Maker Club' , 'The Wondry FLoor 2',
+'No prior experience required', 'Come to the Wondry to build battling robots! There will
+be prizes for the winner of the robot battles')";
+
+//ErrorCheck2: to check the insertion for the event
+if(!$conn -> query($sql_past_events)){
+echo "Error 7: Error inserting id 7 past event info" . $sql_past_events . "<br>" . $conn-> error;
+}else{
+echo "Message 7: Data inserted correctly.";
+}
+
+
+//Insert event data into past event table
+$sql_past_events = "Insert INTO PastEvents (id, EventName, EventTime, Host, EventLocation,
+DifficultyLevel, EventTheme)
+VALUE (8, 'Laser Cutting Workshop', 'Apr. 28th, 2020' , 'Maker Club' , 'Olin Hall 412',
+'No prior experience required', 'Come to the Digital Fabrication Lab in Olin Hall to learn
+about cool Engineering Skills!')";
+
+//ErrorCheck2: to check the insertion for the event
+if(!$conn -> query($sql_past_events)){
+echo "Error 8: Error inserting id 8 past event info" . $sql_past_events . "<br>" . $conn-> error;
+}else{
+echo "Message 8: Data inserted correctly.";
+}
+
+
+//Insert event data into past event table
+$sql_past_events = "Insert INTO PastEvents (id, EventName, EventTime, Host, EventLocation,
+DifficultyLevel, EventTheme)
+VALUE (9, 'Lab Tour and 3D Printing', 'Sept. 1st, 2021' , 'Maker Club' , 'Olin Hall 412',
+'No prior experience required', 'Come tour around Maker Club's new space: the Digital Fabrication Lab!
+Learn about useful 3D printing skill')";
+
+//ErrorCheck2: to check the insertion for the event
+if(!$conn -> query($sql_past_events)){
+echo "Error 9: Error inserting id 9 past event info" . $sql_past_events . "<br>" . $conn-> error;
+}else{
+echo "Message 9: Data inserted correctly.";
+}
+
+//Insert event data into past event table
+$sql_past_events = "Insert INTO PastEvents (id, EventName, EventTime, Host, EventLocation,
+DifficultyLevel, EventTheme)
+VALUE (10, 'CAD Workshop', 'Sept. 7th, 2021' , 'Maker Club' , 'Olin Hall 412',
+'No prior experience required', 'Learn about using CAD!')";
+
+//ErrorCheck2: to check the insertion for the event
+if(!$conn -> query($sql_past_events)){
+echo "Error 10: Error inserting id 10 past event info" . $sql_past_events . "<br>" . $conn-> error;
+}else{
+echo "Message 10: Data inserted correctly.";
+}
+
+
+//Insert event data into past event table
+$sql_past_events = "Insert INTO PastEvents (id, EventName, EventTime, Host, EventLocation,
+DifficultyLevel, EventTheme)
+VALUE (11, 'Injection Molding', 'Oct. 13th, 2021' , 'Maker Club' , 'Olin Hall 412',
+'No prior experience required', 'Come to the digital fabrication lab to injection mold
+your own Vanderbilt Bottle Opener!')";
+
+//ErrorCheck2: to check the insertion for the event
+if(!$conn -> query($sql_past_events)){
+echo "Error 11: Error inserting id 11 past event info" . $sql_past_events . "<br>" . $conn-> error;
+}else{
+echo "Message 11: Data inserted correctly.";
+}
+
 // sql to create Future Events table
 $sql_future_events = "CREATE TABLE FutureEvents (
     id INT(6) UNSIGNED AUTO_INCREMENT PRIMARY KEY,
