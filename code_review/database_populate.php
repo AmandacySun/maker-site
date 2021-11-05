@@ -1,32 +1,38 @@
-<!DOCTYPE html>
-<html lang="en">
-<body>
+
 
 <?php
-$servername = "localhost";
+//Group 9
+//Sunnie Qu: chang.qu@vanderbilt.edu
+//Chuyun Sun: chuyun.sun@vanderbilt.edu
+//Chang Guo: chang.guo@vanderbilt.edu
+//Homework 3
+
+//======================================================================
+// Connect the PHP file from the frontend to the backend MySQL database
+// Creat the database
+//======================================================================
+
+$servername = "127.0.0.1";
 $username = "username";
 $password = "password";
-$dbname = "MakerSiteDB";
 
 
-//variables for tutorial theme
-$3d = '3D Making';
-$laser = 'Laser Cutting';
-$cricut = 'Cricut Maker';
-
-
-//variable for tutorial type
-$vid ='Video';
-$article = 'Website Article';
 
 // Create connection
-$conn = new mysqli_connect($servername, $username, $password,$dbname);
+$conn = new mysqli_connect($servername, $username, $password);
 
-// Check connection
-if (!$conn) {
-  die("Connection Failure Message: " . mysqli_connect_error());
+// Create database
+$sql = "CREATE DATABASE MakerSiteDB";
+if ($conn->query($sql) === TRUE) {
+  echo "Database created successfully";
+} else {
+  echo "Error creating database: " . $conn->error;
 }
-echo "Connected successfully";
+
+
+//======================================================================
+// Create the Tutorial table, check for error, and populate
+//======================================================================
 
 
 // sql to create tutorial table
@@ -44,6 +50,14 @@ echo "Table Tutorial created successfully";
 echo "Error creating tutorial table: " . $conn->error;
 }
 
+//variables for tutorial theme
+$3d = '3D Making';
+$laser = 'Laser Cutting';
+$cricut = 'Cricut Maker';
+
+//variable for tutorial type
+$vid ='Video';
+$article = 'Website Article';
 
 //Insert one test value into tutorial table
 $sql_tutorial = "Insert INTO Tutorial (id, TutorialName, TutorialType, TutorialTheme, TutorialLink)
@@ -55,7 +69,6 @@ if(!$conn -> query($sql_tutorial)){
 }else{
     echo "Message 1: Data inserted correctly.";
 }
-
 
 //Insert Laser Cutting Video into tutorial table
 $sql_tutorial = "Insert INTO Tutorial (id, TutorialName, TutorialType, TutorialTheme, TutorialLink)
@@ -116,6 +129,11 @@ if(!$conn -> query($sql_tutorial)){
     eho "Message 6: Data inserted correctly.";
 }
 
+
+//======================================================================
+// Create the PastEvents table, check for error, and populate
+//======================================================================
+
 // sql to create Past Events table
 $sql_past_events = "CREATE TABLE PastEvents (
     id INT(6) UNSIGNED AUTO_INCREMENT PRIMARY KEY,
@@ -141,7 +159,7 @@ DifficultyLevel, EventTheme)
 VALUE (1, 'Buggies and Nuggies', 'Aug. 30th, 2019' , 'Maker Club' , 'The Wondry Floor 2',
 'No prior experience required', 'Build cars and race them while enjoying nuggets!')";
 
-//ErrorCheck2: to check the insertion for the event
+//ErrorCheck1: to check the insertion for the event
 if(!$conn -> query($sql_past_events)){
     echo "Error 1: Error inserting id 1 past event info" . $sql_past_events . "<br>" . $conn-> error;
 }else{
@@ -171,7 +189,7 @@ VALUE (3, 'Paper Plane Party', 'Sep. 30th, 2019' , 'Maker Club' , 'Featheringill
 'No prior experience required', 'Make paper plane that could travel the longest using
 whatever material you need! We have cardboard, leftover plastic plate, foam, and more!')";
 
-//ErrorCheck2: to check the insertion for the event
+//ErrorCheck3: to check the insertion for the event
 if(!$conn -> query($sql_past_events)){
     echo "Error 3: Error inserting id 3 past event info" . $sql_past_events . "<br>" . $conn-> error;
 }else{
@@ -186,7 +204,7 @@ VALUE (4, 'Engineering Skills 101', 'Oct. 30th, 2019' , 'Maker Club' , 'The Wond
 'No prior experience required', 'Come to the Wondry to learn about relevant Engineering skills, such
 as laser cutting, soldering, and more!')";
 
-//ErrorCheck2: to check the insertion for the event
+//ErrorCheck4: to check the insertion for the event
 if(!$conn -> query($sql_past_events)){
     echo "Error 4: Error inserting id 4 past event info" . $sql_past_events . "<br>" . $conn-> error;
 }else{
@@ -201,7 +219,7 @@ VALUE (5, 'Electric Mice', 'Nov. 15th, 2019' , 'Maker Club' , 'The Wondry FLoor 
 'No prior experience required', 'Come to the Wondry to build electric mice that runs around!
 Learn about soldering and laser cutting skills')";
 
-//ErrorCheck2: to check the insertion for the event
+//ErrorCheck5: to check the insertion for the event
 if(!$conn -> query($sql_past_events)){
 echo "Error 5: Error inserting id 5 past event info" . $sql_past_events . "<br>" . $conn-> error;
 }else{
@@ -216,7 +234,7 @@ VALUE (6, 'Maker Social', 'Jan. 20th, 2020' , 'Maker Club' , 'The Wondry FLoor 2
 'No prior experience required', 'Come to the Wondry to hang out with fellow makers!
 There will be Engineering games and prizes')";
 
-//ErrorCheck2: to check the insertion for the event
+//ErrorCheck6: to check the insertion for the event
 if(!$conn -> query($sql_past_events)){
     echo "Error 6: Error inserting id 6 past event info" . $sql_past_events . "<br>" . $conn-> error;
 }else{
@@ -231,7 +249,7 @@ VALUE (7, 'Robot Battling', 'Feb. 15th, 2020' , 'Maker Club' , 'The Wondry FLoor
 'No prior experience required', 'Come to the Wondry to build battling robots! There will
 be prizes for the winner of the robot battles')";
 
-//ErrorCheck2: to check the insertion for the event
+//ErrorCheck7: to check the insertion for the event
 if(!$conn -> query($sql_past_events)){
 echo "Error 7: Error inserting id 7 past event info" . $sql_past_events . "<br>" . $conn-> error;
 }else{
@@ -246,7 +264,7 @@ VALUE (8, 'Laser Cutting Workshop', 'Apr. 28th, 2020' , 'Maker Club' , 'Olin Hal
 'No prior experience required', 'Come to the Digital Fabrication Lab in Olin Hall to learn
 about cool Engineering Skills!')";
 
-//ErrorCheck2: to check the insertion for the event
+//ErrorCheck8: to check the insertion for the event
 if(!$conn -> query($sql_past_events)){
 echo "Error 8: Error inserting id 8 past event info" . $sql_past_events . "<br>" . $conn-> error;
 }else{
@@ -261,7 +279,7 @@ VALUE (9, 'Lab Tour and 3D Printing', 'Sept. 1st, 2021' , 'Maker Club' , 'Olin H
 'No prior experience required', 'Come tour around Maker Club's new space: the Digital Fabrication Lab!
 Learn about useful 3D printing skill')";
 
-//ErrorCheck2: to check the insertion for the event
+//ErrorCheck9: to check the insertion for the event
 if(!$conn -> query($sql_past_events)){
 echo "Error 9: Error inserting id 9 past event info" . $sql_past_events . "<br>" . $conn-> error;
 }else{
@@ -274,7 +292,7 @@ DifficultyLevel, EventTheme)
 VALUE (10, 'CAD Workshop', 'Sept. 7th, 2021' , 'Maker Club' , 'Olin Hall 412',
 'No prior experience required', 'Learn about using CAD!')";
 
-//ErrorCheck2: to check the insertion for the event
+//ErrorCheck10: to check the insertion for the event
 if(!$conn -> query($sql_past_events)){
 echo "Error 10: Error inserting id 10 past event info" . $sql_past_events . "<br>" . $conn-> error;
 }else{
@@ -289,12 +307,17 @@ VALUE (11, 'Injection Molding', 'Oct. 13th, 2021' , 'Maker Club' , 'Olin Hall 41
 'No prior experience required', 'Come to the digital fabrication lab to injection mold
 your own Vanderbilt Bottle Opener!')";
 
-//ErrorCheck2: to check the insertion for the event
+//ErrorCheck11: to check the insertion for the event
 if(!$conn -> query($sql_past_events)){
 echo "Error 11: Error inserting id 11 past event info" . $sql_past_events . "<br>" . $conn-> error;
 }else{
 echo "Message 11: Data inserted correctly.";
 }
+
+//======================================================================
+// Create the FutureEvents table, check for error, and populate
+//======================================================================
+
 
 // sql to create Future Events table
 $sql_future_events = "CREATE TABLE FutureEvents (
@@ -320,7 +343,7 @@ DifficultyLevel, EventTheme)
 VALUE (1, 'Maker Social Event', 'Nov. 17, 2021', 'Maker Club', 'Featheringill 134',
 'No prior experience required', 'Hang out with fellow makers and enjoy pizza!')";
 
-//ErrorCheck2: to check the insertion for Laser Cutting Video
+//ErrorCheck1: to check the insertion for Laser Cutting Video
 if(!$conn -> query($sql_future_events)){
     echo "Error 1: Error inserting id 1 future event info" . $sql_future_events . "<br>" . $conn-> error;
 }else{
@@ -346,12 +369,17 @@ DifficultyLevel, EventTheme)
 VALUE (3, 'Engineering 101', 'Jan. 17, 2021', 'Maker Club', 'TBA', 'No prior experience required',
 'Come learn about relevant Engineering skills, such as laser cutting, soldering, and more!')";
 
-//ErrorCheck2: to check the insertion for Laser Cutting Video
+//ErrorCheck3: to check the insertion for Laser Cutting Video
 if(!$conn -> query($sql_future_events)){
     echo "Error 3: Error inserting id 3 future event info" . $sql_future_events . "<br>" . $conn-> error;
 }else{
     echo "Message 3: Data inserted correctly.";
 }
+
+
+//======================================================================
+// Create the LogIn table, check for error, and populate
+//======================================================================
 
 
 // sql to create Log In Credential table
@@ -455,6 +483,10 @@ if(!$conn -> query($sql_log_in)){
 }else{
     echo "Log In Message 7: Data inserted correctly.";
 }
+
+//======================================================================
+// Create the UserComment table, check for error, and populate
+//======================================================================
 
 
 // sql to create User Comment table
@@ -593,9 +625,7 @@ if(!$conn -> query($sql_user_comments)){
     echo "User Comment Message 10: Data inserted correctly.";
 }
 
-
 $conn ->close
 ?>
 
-</body>
-</html>
+
