@@ -1,4 +1,27 @@
-<!DOCTYPE HTML>
+
+
+<?php
+
+    if (isset($_POST['submit'])) {
+        require_once("conn.php");
+        $host_name = $_POST['host_name'];
+
+        $query = "SELECT * FROM past_event WHERE host_name = :host_name" ;
+
+        try{
+            $prepared_stmt = $dbo->prepare($query);
+            $prepared_stmt->bindValue(':host_name', $host_name, PDO::PARAM_STR);
+            $prepared_stmt->execute();
+            $result = $prepared_stmt->fetchAll();
+        }catch (PDOException $ex){ // Error in database processing.
+            echo $sql . "<br>" . $error->getMessage(); // HTTP 500 - Internal Server Error
+        }
+}
+?>
+
+
+
+
 
 <html>
 	<head>
@@ -37,9 +60,6 @@
 					</ul>
 				</nav>
 
-
-
-
 				<!-- Main -->
 					<div id="main" class="alt">
 
@@ -57,7 +77,7 @@
 
 
 						<!-- Search Engine -->
-						<form>
+
 							<div class="container-fluid">
 
 								<div class="row">
@@ -66,95 +86,67 @@
 
 										<div class="form-group">
 											<div class="row">
-												<label class="col-2" for="date">Date of Event:</label>
-												<input class="col-8" type="text" id="date" name="date" placeholder="Optional" />
-											</div>
+											<div class="col-12">
+												<form method="post">
+                                                  <label for="host_name">Enter Host Name</label>
+                                                  <input type="text" name="host_name" id="host_name" placeholder="Chang Guo">
+                                                  <input type="submit" name="submit" value="Submit">
+                                                </form>
 
-											<div class="row">
-												<label class="col-2" for="keyword">Keyword or Theme:</label>
-												<input class="col-8" type="text" id="keyword" name="keyword" placeholder="Optional" />
+                                                <?php
+                                                if (isset($_POST['submit'])) {
+                                                  if ($result && $prepared_stmt->rowCount() > 0) { ?>
+
+                                                    <h2>Results</h2>
+
+                                                    <table>
+                                                      <thead>
+                                                		<tr>
+                                                          <th>Event Name</th>
+                                                          <th>Event Time</th>
+                                                          <th>Attendant Number</th>
+                                                          <th>Host</th>
+                                                          <th>Event Location</th>
+                                                          <th>Difficulty Level</th>
+                                                          <th>Event Theme</th>
+                                                		</tr>
+                                                      </thead>
+                                                      <tbody>
+
+                                                <?php foreach ($result as $row) { ?>
+
+                                                      <tr>
+                                                        <td><?php echo $row["event_name"]; ?></td>
+                                                        <td><?php echo $row["event_time"]; ?></td>
+                                                        <td><?php echo $row["attend_num"]; ?></td>
+                                                        <td><?php echo $row["host_name"]; ?></td>
+                                                        <td><?php echo $row["event_location"]; ?></td>
+                                                        <td><?php echo $row["difficulty"]; ?></td>
+                                                        <td><?php echo $row["event_theme"]; ?></td>
+
+                                                      </tr>
+                                                <?php } ?>
+                                                      </tbody>
+                                                  </table>
+
+                                                <?php } else { ?>
+                                                    > No results found for <?php echo $_POST['host_name']; ?>.
+                                                  <?php }
+                                                } ?>
+
+											</div>
 											</div>
 										</div>
 									</div>
 									<div class = "col-1"></div>
 								</div>
 
-								<div class="row">
-									<div class="col-3"></div>
-									<button class="col-6"  type="submit" id="submitBtn">Start Searching for Latest Events!</button>
-									<h4><a href="http://localhost/maker-site-backend/past.php">Search Engine</a></h4>
-									<div class="col-3" ></div>
-								</div>
+
 
 							</div>
-						</form>
+
 
 						<!-- Table of Past Events -->
-						<div class="container-fluid">
-							<div class="row">
-
-								<div class="col-2"></div>
-
-								<div class="col-8">
-							<table class = "table">
-								<h2>Latest Workshops</h2>
-
-								<thead>
-								<tr>
-									<th>Date</th>
-									<th>Host</th>
-									<th>Theme</th>
-									<th>Location</th>
-									<th>Difficulty Level</th>
-								</tr>
-								</thead>
-
-								<tbody>
-								<tr>
-									<td>2021/09/03</td>
-									<td>Last Name First Name</td>
-									<td>Maker Club Workshop</td>
-									<td>Student Life Center</td>
-									<td>Beginner</td>
-								</tr>
-								<tr>
-									<td>2021/09/03</td>
-									<td>Last Name First Name</td>
-									<td>Maker Club Workshop</td>
-									<td>Student Life Center</td>
-									<td>Beginner</td>
-								</tr>
-								<tr>
-									<td>2021/09/03</td>
-									<td>Last Name First Name</td>
-									<td>Maker Club Workshop</td>
-									<td>Student Life Center</td>
-									<td>Beginner</td>
-								</tr>
-								<tr>
-									<td>2021/09/03</td>
-									<td>Last Name First Name</td>
-									<td>Maker Club Workshop</td>
-									<td>Student Life Center</td>
-									<td>Beginner</td>
-								</tr>
-								<tr>
-									<td>2021/09/03</td>
-									<td>Last Name First Name</td>
-									<td>Maker Club Workshop</td>
-									<td>Student Life Center</td>
-									<td>Beginner</td>
-								</tr>
-								</tbody>
-							</table>
-							</div>
-							<div class="col-2"></div>
-
-							</div>
-
-
-						</div>
-
 
 				<!-- Contact -->
 				<section id="contact">
