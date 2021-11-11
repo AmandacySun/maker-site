@@ -1,4 +1,42 @@
-<!DOCTYPE HTML>
+<?php
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
+
+if (isset($_POST['submit'])) {
+
+    require_once("conn.php");
+
+    $comment_name = $_POST['comment_name'];
+    $comment_email = $_POST['comment_email'];
+    $comment_message = $_POST['comment_message'];
+
+
+    $query = "INSERT INTO user_comment (comment_id, comment_name, comment_email,comment_message)
+              VALUES (DEFAULT, :comment_name, :comment_email, :comment_message)";
+
+    try
+    {
+      $prepared_stmt = $dbo->prepare($query);
+      $prepared_stmt->bindValue(':comment_name', $comment_name, PDO::PARAM_STR);
+      $prepared_stmt->bindValue(':comment_email', $comment_email, PDO::PARAM_STR);
+      $prepared_stmt->bindValue(':comment_message', $comment_message, PDO::PARAM_STR);
+      $prepared_stmt->execute();
+    }
+    catch (PDOException $ex)
+    { // Error in database processing.
+      echo $sql . "<br>" . $error->getMessage(); // HTTP 500 - Internal Server Error
+    }
+}
+?>
+
+
+
+
+
+
+
+
 
 <html>
 	<head>
@@ -24,17 +62,17 @@
 				</header>
 				<!-- Menu -->
 				<nav id="menu">
-					<ul class="links">
-						<li><a href="index.html">Home</a></li>
-						<li><a href="about.html">About Us</a></li>
-						<li><a href="past.html">Past Events</a></li>
-						<li><a href="future.html">Future Events</a></li>
-						<li><a href="tutorial.html">Tutorials</a></li>
-					</ul>
-					<ul class="actions stacked">
-						<li><a href="login.html" class="button fit">Log In As Administrator</a></li>
-					</ul>
-				</nav>
+                					<ul class="links">
+                						<li><a href="index.html">Home</a></li>
+                						<li><a href="http://localhost/maker-site-backend/about.php">About Us</a></li>
+                						<li><a href="http://localhost/maker-site-backend/past_event.php">Past Events</a></li>
+                						<li><a href="http://localhost/maker-site-backend/future_event.php">Future Events</a></li>
+                						<li><a href="http://localhost/maker-site-backend/tutorial.php">Tutorials</a></li>
+                					</ul>
+                					<ul class="actions stacked">
+                						<li><a href="login.html" class="button fit">Log In As Administrator</a></li>
+                					</ul>
+                				</nav>
 
 
 
@@ -227,20 +265,20 @@
 									<form method="post" action="#">
 										<div class="fields">
 											<div class="field half">
-												<label for="name">Name</label>
-												<input type="text" name="name" id="name" />
+												<label for="comment_name">Name</label>
+                                                <input type="text" name="comment_name" id="comment_name" />
 											</div>
 											<div class="field half">
-												<label for="email">Email</label>
-												<input type="text" name="email" id="email" />
+												<label for="comment_email">Email</label>
+                                                <input type="text" name="comment_email" id="comment_email" />
 											</div>
 											<div class="field">
-												<label for="message">Message</label>
-												<textarea name="message" id="message" rows="6"></textarea>
+												<label for="comment_message">Message</label>
+												<textarea name="comment_message" id="comment_message" rows="6"></textarea>
 											</div>
 										</div>
 										<ul class="actions">
-											<li><input type="submit" value="Send Message" class="primary" /></li>
+											<li><input type="submit" name="submit" value="Send Message" class="primary" /></li>
 											<li><input type="reset" value="Clear" /></li>
 										</ul>
 									</form>

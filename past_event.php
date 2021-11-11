@@ -47,13 +47,13 @@
 				</header>
 
 				<!-- Menu -->
-				<nav id="menu">
+                <nav id="menu">
 					<ul class="links">
 						<li><a href="index.html">Home</a></li>
-						<li><a href="about.html">About Us</a></li>
-						<li><a href="past.html">Past Events</a></li>
-						<li><a href="future.html">Future Events</a></li>
-						<li><a href="tutorial.html">Tutorials</a></li>
+						<li><a href="http://localhost/maker-site-backend/about.php">About Us</a></li>
+						<li><a href="http://localhost/maker-site-backend/past_event.php">Past Events</a></li>
+						<li><a href="http://localhost/maker-site-backend/future_event.php">Future Events</a></li>
+						<li><a href="http://localhost/maker-site-backend/tutorial.php">Tutorials</a></li>
 					</ul>
 					<ul class="actions stacked">
 						<li><a href="login.html" class="button fit">Log In As Administrator</a></li>
@@ -69,7 +69,7 @@
 									<header class="major">
 										<h1>Past Maker Club Events</h1>
 									</header>
-									<span class="image main"><img src="images/commmonplaceholder.jpg" alt="" /></span>
+									<span class="image main"><img src="images/past_events_home.png" style="width:300px"alt="" /></span>
 								</div>
 							</section>
 
@@ -87,11 +87,25 @@
 										<div class="form-group">
 											<div class="row">
 											<div class="col-12">
+
 												<form method="post">
-                                                  <label for="host_name">Enter Host Name</label>
-                                                  <input type="text" name="host_name" id="host_name" placeholder="Chang Guo">
-                                                  <input type="submit" name="submit" value="Submit">
+                                                  <label id="host_name_search" for="host_name">
+                                                  <h2>Enter Host Name To Search For A Specific Past Event</h2>
+                                                  </label>
+                                                  <input type="text" name="host_name" id="host_name" placeholder="Host Name Here">
+                                                  <div> &nbsp  &nbsp</div>
+                                                  <div class="row">
+                                                    <div class="col-5"></div>
+                                                    <div class="col-2">
+                                                        <input type="submit" name="submit" id="submit" value="Search">
+                                                    </div>
+                                                    <div class="col-5"></div>
+                                                 </div>
+
                                                 </form>
+
+
+
 
                                                 <?php
                                                 if (isset($_POST['submit'])) {
@@ -130,7 +144,7 @@
                                                   </table>
 
                                                 <?php } else { ?>
-                                                    > No results found for <?php echo $_POST['host_name']; ?>.
+                                                    <p id="error message"> Sorry, no past events are found hosted by <?php echo $_POST['host_name']; ?>.</p>
                                                   <?php }
                                                 } ?>
 

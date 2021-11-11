@@ -26,13 +26,10 @@
     <nav id="menu">
         <ul class="links">
             <li><a href="index.html">Home</a></li>
-            <li><a href="about.html">About Us</a></li>
-            <li><a href="past.html">Past Events</a></li>
-            <li><a href="future.html">Future Events</a></li>
-            <li><a href="tutorial.html">Tutorials</a></li>
-        </ul>
-        <ul class="actions stacked">
-            <li><a href="login.html" class="button fit">Log In As Administrator</a></li>
+            <li><a href="http://localhost/maker-site-backend/about.php">About Us</a></li>
+            <li><a href="http://localhost/maker-site-backend/past_event.php">Past Events</a></li>
+            <li><a href="http://localhost/maker-site-backend/future_event.php">Future Events</a></li>
+            <li><a href="http://localhost/maker-site-backend/tutorial.php">Tutorials</a></li>
         </ul>
     </nav>
 
@@ -46,8 +43,7 @@
                     <div class="col-7">
                         <p>&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                             Welcome back board members!
-                            Please login using your designated credentials for announcement
-                            editing.</p>
+                            Please login using your designated credentials.</p>
                     </div>
                     <div class="col-3"></div>
 
@@ -58,7 +54,9 @@
                     <div class="col-10">
 
                         <div class="form-group">
+                            <form>
                             <div class="row"></div>
+
                             <div class="row">
                                 <label class="col-2" for="username">Username:</label>
                                 <input class="col-8" type="text" id="username" name="username" placeholder="Required" />
@@ -67,19 +65,24 @@
 
                             <div class="row">
                                 <label class="col-2" for="password">Password:</label>
-                                <input class="col-8" type="text" id="password" name="password" placeholder="Required" />
+                                <input class="col-8" type="password" id="password" name="password" placeholder="Required" />
                                 <div class="col-2"></div>
                             </div>
+                                <div> &nbsp  &nbsp</div>
+
+                                <div class="row">
+                                    <div class="col-3"></div>
+                                    <button class="col-6"  type="button" id="submitBtn" onclick="check(this.form)">Log In</button>
+                                    <div class="col-3" ></div>
+                                </div>
+
+                            </form>
                         </div>
                     </div>
                     <div class = "col-1"></div>
                 </div>
 
-                <div class="row">
-                    <div class="col-3"></div>
-                    <button class="col-6"  type="submit" id="submitBtn">Log In</button>
-                    <div class="col-3" ></div>
-                </div>
+
 
             </div>
         </form>
@@ -111,6 +114,18 @@
     <script src="assets/js/breakpoints.min.js"></script>
     <script src="assets/js/util.js"></script>
     <script src="assets/js/main.js"></script>
+
+    <script language="javascript">
+    function check(form) { /*function to check userid & password*/
+        /*the following code checkes whether the entered userid and password are matching*/
+        if(form.username.value === "username" && form.password.value === "password") {
+            window.open('http://localhost/maker-site-backend/view_message.php')/*opens the target page while Id & password matches*/
+        }
+        else {
+            alert("Wrong Password or Username! Please try again!")/*displays error message*/
+        }
+    }
+    </script>
 </div>
 </body>
 </html>
