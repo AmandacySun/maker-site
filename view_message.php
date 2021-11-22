@@ -2,7 +2,7 @@
 
 <?php
 
-    if (isset($_POST['submit'])) {
+
         require_once("conn.php");
         $query = "SELECT * FROM user_comment " ;
         try{
@@ -12,7 +12,7 @@
         }catch (PDOException $ex){ // Error in database processing.
             echo $sql . "<br>" . $error->getMessage(); // HTTP 500 - Internal Server Error
         }
-}
+
 ?>
 
 
@@ -42,7 +42,7 @@
 				</header>
 
 				<!-- Menu -->
-<nav id="menu">
+                <nav id="menu">
 					<ul class="links">
 						<li><a href="index.html">Home</a></li>
 						<li><a href="http://localhost/maker-site-backend/about.php">About Us</a></li>
@@ -58,9 +58,6 @@
 
 
 
-
-
-
 						<!-- Search Engine -->
 
 							<div class="container-fluid">
@@ -73,27 +70,15 @@
 											<div class="row">
 											<div class="col-12">
 
-												<form method="post">
-
-
-                                                  <div class="row">
-                                                    <div class="col-5"></div>
-                                                    <div class="col-2">
-                                                        <input type="submit" name="submit" id="submit" value="View All Messages">
-                                                    </div>
-                                                    <div class="col-5"></div>
-                                                 </div>
-
-                                                </form>
 
 
 
 
                                                 <?php
-                                                if (isset($_POST['submit'])) {
+
                                                   if ($result && $prepared_stmt->rowCount() > 0) { ?>
 
-                                                    <h2>Results</h2>
+                                                    <h2>Here Are All The User Comments:</h2>
 
                                                     <table>
                                                       <thead>
@@ -119,8 +104,8 @@
 
                                                 <?php } else { ?>
                                                     <p id="error message"> Sorry, no past events are found hosted by <?php echo $_POST['host_name']; ?>.</p>
-                                                  <?php }
-                                                } ?>
+                                                  <?php } ?>
+
 
 											</div>
 											</div>
@@ -134,9 +119,6 @@
 							</div>
 
 
-						<!-- Table of Past Events -->
-
-				<!-- Contact -->
 
 
 				<!-- Footer -->

@@ -1,10 +1,9 @@
 
-
 <?php
 
 
         require_once("conn.php");
-        $query1 = "SELECT * FROM future_event " ;
+        $query1 = "SELECT * FROM past_event " ;
         try{
             $prepared_stmt1 = $dbo->prepare($query1);
             $prepared_stmt1->execute();
@@ -15,17 +14,21 @@
 
 ?>
 
+
+
+
+
 <?php
 
-    if (isset($_POST['search'])) {
+    if (isset($_POST['submit'])) {
         require_once("conn.php");
-        $difficulty = $_POST['difficulty'];
+        $host_name = $_POST['host_name'];
 
-        $query = "SELECT * FROM future_event WHERE difficulty = :difficulty" ;
+        $query = "SELECT * FROM past_event WHERE host_name = :host_name" ;
 
         try{
             $prepared_stmt = $dbo->prepare($query);
-            $prepared_stmt->bindValue(':difficulty', $difficulty, PDO::PARAM_STR);
+            $prepared_stmt->bindValue(':host_name', $host_name, PDO::PARAM_STR);
             $prepared_stmt->execute();
             $result = $prepared_stmt->fetchAll();
         }catch (PDOException $ex){ // Error in database processing.
@@ -40,7 +43,7 @@
 
 <html>
 	<head>
-		<title>Future Events</title>
+		<title>Past Events</title>
 		<meta charset="utf-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
 		<link rel="stylesheet" href="assets/css/main.css" />
@@ -66,7 +69,7 @@
 					<ul class="links">
 						<li><a href="index.html">Home</a></li>
 						<li><a href="http://localhost/maker-site-backend/about.php">About Us</a></li>
-						<li><a href="http://localhost/maker-site-backend/past_event.php">Past Events</a></li>
+						<li><a href="http://localhost/maker-site-backend/past_event2.php">Past Events</a></li>
 						<li><a href="http://localhost/maker-site-backend/future_event.php">Future Events</a></li>
 						<li><a href="http://localhost/maker-site-backend/tutorial.php">Tutorials</a></li>
 					</ul>
@@ -82,11 +85,14 @@
 							<section id="one">
 								<div class="inner">
 									<header class="major">
-										<h1>Future Maker Club Events</h1>
+										<h1>Past Maker Club Events</h1>
 									</header>
-									<span class="image main"><img src="images/future_events_home.jpg" style="width:300px"alt="" /></span>
+									<span class="image main"><img src="images/past_events_home.png" style="width:300px"alt="" /></span>
 								</div>
 							</section>
+
+
+
 
 						<!-- Search Engine -->
 
@@ -100,33 +106,37 @@
 											<div class="row">
 											<div class="col-12">
 
-
-
-                                                <form method="post">
-                                                  <label id="difficulty_search" for="difficulty">
-                                                    <h2>Enter A Difficulty Level To Search For Future Events!</h2>
+												<form method="post">
+                                                  <label id="host_name_search" for="host_name">
+                                                  <h2>Enter Host Name To Search For A Specific Past Event</h2>
                                                   </label>
-                                                  <input type="text" name="difficulty" id="difficulty" placeholder="Difficulty Level Here">
+                                                  <input type="text" name="host_name" id="host_name" placeholder="Host Name Here">
                                                   <div> &nbsp  &nbsp</div>
                                                   <div class="row">
                                                     <div class="col-5"></div>
                                                     <div class="col-2">
-                                                        <input type="submit" name="search" id="search" value="Search">
+                                                        <input type="submit" name="submit" id="submit" value="Search">
                                                     </div>
                                                     <div class="col-5"></div>
                                                  </div>
 
                                                 </form>
 
-                                            <?php
-                                                if (isset($_POST['search'])) {
+
+
+
+                                                <?php
+                                                if (isset($_POST['submit'])) {
                                                   if ($result && $prepared_stmt->rowCount() > 0) { ?>
-                                                    <h2>Future Events With Difficulty Level <?php echo $_POST['difficulty']; ?></h2>
+
+                                                    <h2>Past Events Hosted by <?php echo $_POST['host_name']; ?></h2>
+
                                                     <table>
                                                       <thead>
                                                 		<tr>
                                                           <th>Event Name</th>
                                                           <th>Event Time</th>
+                                                          <th>Attendant Number</th>
                                                           <th>Host</th>
                                                           <th>Event Location</th>
                                                           <th>Difficulty Level</th>
@@ -136,9 +146,11 @@
                                                       <tbody>
 
                                                 <?php foreach ($result as $row) { ?>
+
                                                       <tr>
                                                         <td><?php echo $row["event_name"]; ?></td>
                                                         <td><?php echo $row["event_time"]; ?></td>
+                                                        <td><?php echo $row["attend_num"]; ?></td>
                                                         <td><?php echo $row["host_name"]; ?></td>
                                                         <td><?php echo $row["event_location"]; ?></td>
                                                         <td><?php echo $row["difficulty"]; ?></td>
@@ -148,19 +160,19 @@
                                                 <?php } ?>
                                                       </tbody>
                                                   </table>
+
                                                 <?php } else { ?>
-                                                   <p id="error message">   Sorry, no future events are found with difficulty level <?php echo $_POST['difficulty']; ?>.</p>
+                                                    <p id="error message"> Sorry, no past events are found hosted by <?php echo $_POST['host_name']; ?>.</p>
                                                   <?php }
                                                 } ?>
 
 
 
-
-                                                <?php
+                                               <?php
 
                                                   if ($result1 && $prepared_stmt1->rowCount() > 0) { ?>
 
-                                                    <h2>All Future Events</h2>
+                                                    <h2>All Past Events</h2>
 
                                                     <table>
                                                       <thead>
@@ -191,12 +203,8 @@
                                                   </table>
 
                                                 <?php } else { ?>
-                                                    Sorry, no future events are available.
-                                                  <?php } ?>
-
-
-
-
+                                                    Sorry, no past events are available.
+                                                  <?php }  ?>
 
 
 											</div>

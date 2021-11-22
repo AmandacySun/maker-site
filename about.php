@@ -103,7 +103,7 @@ if (isset($_POST['submit'])) {
 									<div class="image">
 										<img src="images/member_two.jpg"
 											 height="450"
-											 alt="" data-position="center center"  />
+											 alt="" data-position="center center"/>
 									</div>
 									<div class="content">
 										<div class="inner">
