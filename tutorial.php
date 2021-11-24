@@ -35,6 +35,37 @@
 ?>
 
 
+<?php
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
+
+if (isset($_POST['submit2'])) {
+
+    require_once("conn.php");
+
+    $comment_name = $_POST['comment_name'];
+    $comment_email = $_POST['comment_email'];
+    $comment_message = $_POST['comment_message'];
+
+
+    $query = "INSERT INTO user_comment (comment_id, comment_name, comment_email,comment_message)
+              VALUES (DEFAULT, :comment_name, :comment_email, :comment_message)";
+
+    try
+    {
+      $prepared_stmt = $dbo->prepare($query);
+$prepared_stmt->bindValue(':comment_name', $comment_name, PDO::PARAM_STR);
+$prepared_stmt->bindValue(':comment_email', $comment_email, PDO::PARAM_STR);
+$prepared_stmt->bindValue(':comment_message', $comment_message, PDO::PARAM_STR);
+$prepared_stmt->execute();
+}
+catch (PDOException $ex)
+{ // Error in database processing.
+echo $sql . "<br>" . $error->getMessage(); // HTTP 500 - Internal Server Error
+}
+}
+?>
 
 
 
@@ -105,45 +136,47 @@
 									<div class="col-10">
 
 										<div class="form-group">
-											<div class="row">
-											<div class="col-12">
+
 
 												<form method="post">
-
-
-												<label id="host_name_search" for="host_name">
-                                                    <h2>Enter A Tutorial Type To Search For Tutorials!</h2>
-                                                </label>
                                                 <div class="row">
-                                                 <div class="col-0"></div>
-                                                 <div class="col-5">
-                                                <input type="text" name="tutorial_type" id="tutorial_type" placeholder="Tutorial Type Here">
-                                                  </div>
-                                                 <div class="col-7"></div>
+                                                    <div class="col-0"></div>
+                                                    <div class="col-5">
+                                                        <label id="tutorial_type" for="tutorial_type">
+                                                            <h2>Search For More Resources!</h2>
+                                                        </label>
 
-                                                </div>
-
-
-                                                 <div> &nbsp  &nbsp</div>
-                                                   <div class="row">
-                                                     <div class="col-0"></div>
-                                                     <div class="col-5">
-                                                        <input type="submit" name="search" id="search" value="Search">
-                                                      </div>
-                                                      <div class="col-7"></div>
+                                                        <select name="tutorial_type" id="tutorial_type">
+                                                            <option value="" disabled selected>Select a difficulty level</option>
+                                                            <option value="video">video</option>
+                                                            <option value="article">article</option>
+                                                        </select>
                                                     </div>
+                                                    <div class="col-7"></div>
+                                                 </div>
+                                                  <div> &nbsp  &nbsp</div>
+
+
+                                                  <div class="row">
+                                                    <div class="col-0"></div>
+                                                    <div class="col-5">
+                                                     <input type="submit" name="search" id="search" value="Search">
+                                                    </div>
+                                                    <div class="col-7"></div>
+                                                 </div>
                                                     <div> &nbsp  &nbsp</div>
 
                                                   <div class="row">
                                                     <div class="col-0"></div>
                                                     <div class="col-5">
+
                                                         <input type="submit" name="submit" id="submit" value="Show All Tutorials">
                                                     </div>
                                                     <div class="col-7"></div>
                                                  </div>
 
                                                 </form>
-
+                                               </div>
 
 
                                                 <?php
@@ -153,20 +186,25 @@
                                                      <section id="two" class="spotlights">
 
                                                         <?php foreach ($result as $row) { ?>
+                                                           <?php $link = $row["tutorial_link"]?>
                                                             <section>
                                                                 <div class="image">
-                        									        <img src="images/tutorial_home.jpg" style="height:405px" alt="" data-position="center center" />
+                                                                    <?php if($row["tutorial_type"] == "video"){?>
+                        									            <img src="images/tutorial_home.jpg" style="height:405px" alt="" data-position="center center" />
+                        									        <?php }else{?>
+                        									            <img src="images/tutorial_resource_image.png" style="height:405px" alt="" data-position="center center" />
+                        									        <?php }?>
                         								        </div>
-                         								            <div class="content">
-                         									            <div class="inner">
-                         										            <header class="major">
-                         											            <a href="https://www.youtube.com/watch?v=3LBTkLsjHGQ">
-                         												        <h3><?php echo $row["tutorial_name"]; ?></h3>
-                         											         </a>
-                         										            </header>
-                         										            <p><?php echo $row["tutorial_theme"]; ?></p>
-                         									</div>
-                         								</div>
+                         								           <div class="content">
+                         									        <div class="inner">
+                         										     <header class="major">
+                         											 <a href=<?php echo $link ?> >
+                         												 <h3><?php echo $row["tutorial_name"]; ?></h3>
+                         											 </a>
+                         										     </header>
+                         										     <p><?php echo $row["tutorial_theme"]; ?></p>
+                         									       </div>
+                         								          </div>
                          							</section>
                                                   <?php } ?>
                                                   </section>
@@ -178,28 +216,33 @@
 
 
 
- <?php
+                                            <?php
                                                 if (isset($_POST['search'])) {
                                                   if ($result && $prepared_stmt->rowCount() > 0) { ?>
 
                                                      <section id="two" class="spotlights">
 
                                                         <?php foreach ($result as $row) { ?>
+                                                             <?php $link = $row["tutorial_link"]?>
                                                             <section>
                                                                 <div class="image">
-                        									        <img src="images/tutorial_home.jpg" style="height:405px" alt="" data-position="center center" />
-                        								        </div>
-                         								            <div class="content">
-                         									            <div class="inner">
-                         										            <header class="major">
-                         											            <a href="https://www.youtube.com/watch?v=3LBTkLsjHGQ">
-                         												        <h3><?php echo $row["tutorial_name"]; ?></h3>
-                         											         </a>
-                         										            </header>
-                         										            <p><?php echo $row["tutorial_theme"]; ?></p>
-                         									</div>
-                         								</div>
-                         							</section>
+                                                                    <?php if($row["tutorial_type"] == "video"){?>
+                        									            <img src="images/tutorial_home.jpg" style="height:405px" alt="" data-position="center center" />
+                        									        <?php }else{?>
+                        									            <img src="images/tutorial_resource_image.png" style="height:405px" alt="" data-position="center center" />
+                        									        <?php }?>
+                        									    </div>
+                         								        <div class="content">
+                         									       <div class="inner">
+                         										      <header class="major">
+                         											     <a href=<?php echo $link ?> >
+                         												 <h3><?php echo $row["tutorial_name"]; ?></h3>
+                         											     </a>
+                         										      </header>
+                         										      <p><?php echo $row["tutorial_theme"]; ?></p>
+                         						                   </div>
+                         								        </div>
+                         							        </section>
                                                   <?php } ?>
                                                   </section>
                                                 <?php } else { ?>
@@ -209,17 +252,17 @@
 
 											</div>
 											</div>
-										</div>
+
 									</div>
 									<div class = "col-1"></div>
 								</div>
 
 
 
-							</div>
-<div> &nbsp  &nbsp</div>
 
-						<!-- Table of Past Events -->
+                        <div> &nbsp  &nbsp</div>
+
+						<!-- Table of Tutorials -->
 						<section id="two" class="spotlights">
 
                         							<section>
@@ -269,81 +312,80 @@
 
                         	</section>
 
-				<!-- Contact -->
 				<section id="contact">
-					<div class="inner">
-						<section>
-							<form method="post" action="#">
-								<div class="fields">
-									<div class="field half">
-										<label for="name">Name</label>
-										<input type="text" name="name" id="name" />
-									</div>
-									<div class="field half">
-										<label for="email">Email</label>
-										<input type="text" name="email" id="email" />
-									</div>
-									<div class="field">
-										<label for="message">Message</label>
-										<textarea name="message" id="message" rows="6"></textarea>
-									</div>
-								</div>
-								<ul class="actions">
-									<li><input type="submit" value="Send Message" class="primary" /></li>
-									<li><input type="reset" value="Clear" /></li>
-								</ul>
-							</form>
-						</section>
-						<section class="split">
-							<section>
-								<div class="contact-method">
-									<span class="icon solid alt fa-envelope"></span>
-									<h3>Email</h3>
-									<a href="#">MakeClub@vanderbilt.edu</a>
-								</div>
-							</section>
-							<section>
-								<div class="contact-method">
-									<span class="icon solid alt fa-phone"></span>
-									<h3>Phone</h3>
-									<span>(000) 000-0000 x12387</span>
-								</div>
-							</section>
-							<section>
-								<div class="contact-method">
-									<span class="icon solid alt fa-home"></span>
-									<h3>Address</h3>
-									<span>2301 Vanderbilt Place<br />
-										Nashville, TN 37235<br />
-										United States of America</span>
-								</div>
-							</section>
-						</section>
-					</div>
-				</section>
+                					<div class="inner">
+                						<section>
+                                            <form method="post" action="#">
+                										<div class="fields">
+                											<div class="field half">
+                												<label for="comment_name">Name</label>
+                                                                <input type="text" name="comment_name" id="comment_name" />
+                											</div>
+                											<div class="field half">
+                												<label for="comment_email">Email</label>
+                                                                <input type="text" name="comment_email" id="comment_email" />
+                											</div>
+                											<div class="field">
+                												<label for="comment_message">Message</label>
+                												<textarea name="comment_message" id="comment_message" rows="6"></textarea>
+                											</div>
+                										</div>
+                										<ul class="actions">
+                											<li><input type="submit" name="submit2" value="Send Message" class="primary" /></li>
+                											<li><input type="reset" value="Clear" /></li>
+                										</ul>
+                								</form>
+                						</section>
+                						<section class="split">
+                							<section>
+                								<div class="contact-method">
+                									<span class="icon solid alt fa-envelope"></span>
+                									<h3>Email</h3>
+                									<a href="#">MakeClub@vanderbilt.edu</a>
+                								</div>
+                							</section>
+                							<section>
+                								<div class="contact-method">
+                									<span class="icon solid alt fa-phone"></span>
+                									<h3>Phone</h3>
+                									<span>(000) 000-0000 x12387</span>
+                								</div>
+                							</section>
+                							<section>
+                								<div class="contact-method">
+                									<span class="icon solid alt fa-home"></span>
+                									<h3>Address</h3>
+                									<span>2301 Vanderbilt Place<br />
+                										Nashville, TN 37235<br />
+                										United States of America</span>
+                								</div>
+                							</section>
+                						</section>
+                					</div>
+                				</section>
 
-				<!-- Footer -->
-				<footer id="footer">
-					<div class="inner">
-						<ul class="icons">
-							<li><a href="#" class="icon brands alt fa-facebook-f"><span class="label">Facebook</span></a></li>
-							<li><a href="#" class="icon brands alt fa-instagram"><span class="label">Instagram</span></a></li>
-						</ul>
-						<ul class="copyright">
-							<li>&copy; Untitled</li><li>Design:Sunnie, Chang, Amanda</a></li>
-						</ul>
-					</div>
-				</footer>
+                				<!-- Footer -->
+                				<footer id="footer">
+                					<div class="inner">
+                						<ul class="icons">
+                							<li><a href="#" class="icon brands alt fa-facebook-f"><span class="label">Facebook</span></a></li>
+                							<li><a href="#" class="icon brands alt fa-instagram"><span class="label">Instagram</span></a></li>
+                						</ul>
+                						<ul class="copyright">
+                							<li>&copy; Vanderbilt Maker Club Dev Team</li><li>Design: Sunnie, Chang, Amanda</a></li>
+                						</ul>
+                					</div>
+                				</footer>
 
-			</div>
-		<!-- Scripts -->
-			<script src="assets/js/jquery.min.js"></script>
-			<script src="assets/js/jquery.scrolly.min.js"></script>
-			<script src="assets/js/jquery.scrollex.min.js"></script>
-			<script src="assets/js/browser.min.js"></script>
-			<script src="assets/js/breakpoints.min.js"></script>
-			<script src="assets/js/util.js"></script>
-			<script src="assets/js/main.js"></script>
+                			</div>
+                		<!-- Scripts -->
+                			<script src="assets/js/jquery.min.js"></script>
+                			<script src="assets/js/jquery.scrolly.min.js"></script>
+                			<script src="assets/js/jquery.scrollex.min.js"></script>
+                			<script src="assets/js/browser.min.js"></script>
+                			<script src="assets/js/breakpoints.min.js"></script>
+                			<script src="assets/js/util.js"></script>
+                			<script src="assets/js/main.js"></script>
 
-	</body>
-</html>
+                	</body>
+                </html>

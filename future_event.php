@@ -1,41 +1,67 @@
 
 
 <?php
-
-
-        require_once("conn.php");
-        $query1 = "SELECT * FROM future_event " ;
-        try{
-            $prepared_stmt1 = $dbo->prepare($query1);
-            $prepared_stmt1->execute();
-            $result1 = $prepared_stmt1->fetchAll();
-        }catch (PDOException $ex){ // Error in database processing.
-            echo $sql . "<br>" . $error->getMessage(); // HTTP 500 - Internal Server Error
-        }
-
-?>
-
-<?php
-
-    if (isset($_POST['search'])) {
-        require_once("conn.php");
-        $difficulty = $_POST['difficulty'];
-
-        $query = "SELECT * FROM future_event WHERE difficulty = :difficulty" ;
-
-        try{
-            $prepared_stmt = $dbo->prepare($query);
-            $prepared_stmt->bindValue(':difficulty', $difficulty, PDO::PARAM_STR);
-            $prepared_stmt->execute();
-            $result = $prepared_stmt->fetchAll();
-        }catch (PDOException $ex){ // Error in database processing.
-            echo $sql . "<br>" . $error->getMessage(); // HTTP 500 - Internal Server Error
-        }
+require_once "conn.php";
+$query1 = "SELECT * FROM future_event ";
+try {
+    $prepared_stmt1 = $dbo->prepare($query1);
+    $prepared_stmt1->execute();
+    $result1 = $prepared_stmt1->fetchAll();
+} catch (PDOException $ex) {
+    // Error in database processing.
+    echo $sql . "<br>" . $error->getMessage(); // HTTP 500 - Internal Server Error
 }
 ?>
 
+<?php if (isset($_POST["search"])) {
+    require_once "conn.php";
+    $difficulty = $_POST["difficulty"];
+
+    $query = "SELECT * FROM future_event WHERE difficulty = :difficulty";
+
+    try {
+        $prepared_stmt = $dbo->prepare($query);
+        $prepared_stmt->bindValue(":difficulty", $difficulty, PDO::PARAM_STR);
+        $prepared_stmt->execute();
+        $result = $prepared_stmt->fetchAll();
+    } catch (PDOException $ex) {
+        // Error in database processing.
+        echo $sql . "<br>" . $error->getMessage(); // HTTP 500 - Internal Server Error
+    }
+} ?>
 
 
+<?php
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
+
+if (isset($_POST['submit'])) {
+
+    require_once("conn.php");
+
+    $comment_name = $_POST['comment_name'];
+    $comment_email = $_POST['comment_email'];
+    $comment_message = $_POST['comment_message'];
+
+
+    $query = "INSERT INTO user_comment (comment_id, comment_name, comment_email,comment_message)
+              VALUES (DEFAULT, :comment_name, :comment_email, :comment_message)";
+
+    try
+    {
+      $prepared_stmt = $dbo->prepare($query);
+$prepared_stmt->bindValue(':comment_name', $comment_name, PDO::PARAM_STR);
+$prepared_stmt->bindValue(':comment_email', $comment_email, PDO::PARAM_STR);
+$prepared_stmt->bindValue(':comment_message', $comment_message, PDO::PARAM_STR);
+$prepared_stmt->execute();
+}
+catch (PDOException $ex)
+{ // Error in database processing.
+echo $sql . "<br>" . $error->getMessage(); // HTTP 500 - Internal Server Error
+}
+}
+?>
 
 
 <html>
@@ -63,17 +89,17 @@
 
 				<!-- Menu -->
                 <nav id="menu">
-					<ul class="links">
-						<li><a href="index.html">Home</a></li>
-						<li><a href="http://localhost/maker-site-backend/about.php">About Us</a></li>
-						<li><a href="http://localhost/maker-site-backend/past_event.php">Past Events</a></li>
-						<li><a href="http://localhost/maker-site-backend/future_event.php">Future Events</a></li>
-						<li><a href="http://localhost/maker-site-backend/tutorial.php">Tutorials</a></li>
-					</ul>
-					<ul class="actions stacked">
-						<li><a href="login.html" class="button fit">Log In As Administrator</a></li>
-					</ul>
-				</nav>
+ 					<ul class="links">
+ 						<li><a href="index.php">Home</a></li>
+ 						<li><a href="http://localhost/maker-site-backend/about.php">About Us</a></li>
+ 						<li><a href="http://localhost/maker-site-backend/past_event.php">Past Events</a></li>
+ 						<li><a href="http://localhost/maker-site-backend/future_event.php">Future Events</a></li>
+ 						<li><a href="http://localhost/maker-site-backend/tutorial.php">Tutorials</a></li>
+ 					</ul>
+ 					<ul class="actions stacked">
+ 						<li><a href="login.html" class="button fit">Log In As Administrator</a></li>
+ 					</ul>
+ 				</nav>
 
 				<!-- Main -->
 					<div id="main" class="alt">
@@ -104,9 +130,15 @@
 
                                                 <form method="post">
                                                   <label id="difficulty_search" for="difficulty">
-                                                    <h2>Enter A Difficulty Level To Search For Future Events!</h2>
+                                                    <h2>Select A Difficulty Level To Search For Future Events!</h2>
                                                   </label>
-                                                  <input type="text" name="difficulty" id="difficulty" placeholder="Difficulty Level Here">
+                                                  <select name="difficulty" id="difficulty">
+                                                    <option value="" disabled selected>Select a difficulty level</option>
+                                                    <option value="Easy">Easy</option>
+                                                    <option value="Intermediate">Intermediate</option>
+                                                    <option value="Advanced">Advanced</option>
+
+                                                  </select>
                                                   <div> &nbsp  &nbsp</div>
                                                   <div class="row">
                                                     <div class="col-5"></div>
@@ -118,10 +150,15 @@
 
                                                 </form>
 
-                                            <?php
-                                                if (isset($_POST['search'])) {
-                                                  if ($result && $prepared_stmt->rowCount() > 0) { ?>
-                                                    <h2>Future Events With Difficulty Level <?php echo $_POST['difficulty']; ?></h2>
+                                            <?php if (isset($_POST["search"])) {
+                                                if (
+                                                    $result &&
+                                                    $prepared_stmt->rowCount() >
+                                                        0
+                                                ) { ?>
+                                                    <h2>Future Events With Difficulty Level <?php echo $_POST[
+                                                        "difficulty"
+                                                    ]; ?></h2>
                                                     <table>
                                                       <thead>
                                                 		<tr>
@@ -142,23 +179,17 @@
                                                         <td><?php echo $row["host_name"]; ?></td>
                                                         <td><?php echo $row["event_location"]; ?></td>
                                                         <td><?php echo $row["difficulty"]; ?></td>
-                                                        <td><?php echo $row["event_theme"]; ?></td>
-
+                                                        <td><?php echo $row["event_theme" ]; ?></td>
                                                       </tr>
                                                 <?php } ?>
                                                       </tbody>
-                                                  </table>
+                                                     </table>
                                                 <?php } else { ?>
-                                                   <p id="error message">   Sorry, no future events are found with difficulty level <?php echo $_POST['difficulty']; ?>.</p>
+                                                   <p id="error message">   Sorry, no future events are found with difficulty level <?php echo $_POST["difficulty"]; ?>.</p>
                                                   <?php }
-                                                } ?>
+                                            } ?>
 
-
-
-
-                                                <?php
-
-                                                  if ($result1 && $prepared_stmt1->rowCount() > 0) { ?>
+                                                <?php if ($result1 && $prepared_stmt1->rowCount() > 0) { ?>
 
                                                     <h2>All Future Events</h2>
 
@@ -176,15 +207,13 @@
                                                       <tbody>
 
                                                 <?php foreach ($result1 as $row1) { ?>
-
                                                       <tr>
                                                         <td><?php echo $row1["event_name"]; ?></td>
-                                                        <td><?php echo $row1["event_time"]; ?></td>
+                                                        <td><?php echo $row1[ "event_time"]; ?></td>
                                                         <td><?php echo $row1["host_name"]; ?></td>
                                                         <td><?php echo $row1["event_location"]; ?></td>
                                                         <td><?php echo $row1["difficulty"]; ?></td>
                                                         <td><?php echo $row1["event_theme"]; ?></td>
-
                                                       </tr>
                                                 <?php } ?>
                                                       </tbody>
@@ -194,19 +223,12 @@
                                                     Sorry, no future events are available.
                                                   <?php } ?>
 
-
-
-
-
-
 											</div>
 											</div>
 										</div>
 									</div>
 									<div class = "col-1"></div>
 								</div>
-
-
 
 							</div>
 
@@ -217,26 +239,26 @@
 				<section id="contact">
 					<div class="inner">
 						<section>
-							<form method="post" action="#">
-								<div class="fields">
-									<div class="field half">
-										<label for="name">Name</label>
-										<input type="text" name="name" id="name" />
-									</div>
-									<div class="field half">
-										<label for="email">Email</label>
-										<input type="text" name="email" id="email" />
-									</div>
-									<div class="field">
-										<label for="message">Message</label>
-										<textarea name="message" id="message" rows="6"></textarea>
-									</div>
-								</div>
-								<ul class="actions">
-									<li><input type="submit" value="Send Message" class="primary" /></li>
-									<li><input type="reset" value="Clear" /></li>
-								</ul>
-							</form>
+                            <form method="post" action="#">
+										<div class="fields">
+											<div class="field half">
+												<label for="comment_name">Name</label>
+                                                <input type="text" name="comment_name" id="comment_name" />
+											</div>
+											<div class="field half">
+												<label for="comment_email">Email</label>
+                                                <input type="text" name="comment_email" id="comment_email" />
+											</div>
+											<div class="field">
+												<label for="comment_message">Message</label>
+												<textarea name="comment_message" id="comment_message" rows="6"></textarea>
+											</div>
+										</div>
+										<ul class="actions">
+											<li><input type="submit" name="submit" value="Send Message" class="primary" /></li>
+											<li><input type="reset" value="Clear" /></li>
+										</ul>
+								</form>
 						</section>
 						<section class="split">
 							<section>
@@ -274,7 +296,7 @@
 							<li><a href="#" class="icon brands alt fa-instagram"><span class="label">Instagram</span></a></li>
 						</ul>
 						<ul class="copyright">
-							<li>&copy; Untitled</li><li>Design:Sunnie, Chang, Amanda</a></li>
+							<li>&copy; Vanderbilt Maker Club Dev Team</li><li>Design: Sunnie, Chang, Amanda</a></li>
 						</ul>
 					</div>
 				</footer>

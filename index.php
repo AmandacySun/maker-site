@@ -1,4 +1,34 @@
-<!DOCTYPE HTML>
+<?php
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
+
+if (isset($_POST['submit'])) {
+
+    require_once("conn.php");
+
+    $comment_name = $_POST['comment_name'];
+    $comment_email = $_POST['comment_email'];
+    $comment_message = $_POST['comment_message'];
+
+
+    $query = "INSERT INTO user_comment (comment_id, comment_name, comment_email,comment_message)
+              VALUES (DEFAULT, :comment_name, :comment_email, :comment_message)";
+
+    try
+    {
+      $prepared_stmt = $dbo->prepare($query);
+$prepared_stmt->bindValue(':comment_name', $comment_name, PDO::PARAM_STR);
+$prepared_stmt->bindValue(':comment_email', $comment_email, PDO::PARAM_STR);
+$prepared_stmt->bindValue(':comment_message', $comment_message, PDO::PARAM_STR);
+$prepared_stmt->execute();
+}
+catch (PDOException $ex)
+{ // Error in database processing.
+echo $sql . "<br>" . $error->getMessage(); // HTTP 500 - Internal Server Error
+}
+}
+?>
 <html>
 	<head>
 		<title>Home Page</title>
@@ -24,7 +54,7 @@
 				<!-- Menu -->
 				<nav id="menu">
 					<ul class="links">
-						<li><a href="index.html">Home</a></li>
+						<li><a href="index.php">Home</a></li>
 						<li><a href="http://localhost/maker-site-backend/about.php">About Us</a></li>
 						<li><a href="http://localhost/maker-site-backend/past_event.php">Past Events</a></li>
 						<li><a href="http://localhost/maker-site-backend/future_event.php">Future Events</a></li>
@@ -63,7 +93,7 @@
 							<section id="one" class="tiles">
 								<article>
 									<span class="image">
-										<img src="images/about_us_home.jpg" alt="" />
+										<img src="images/pic01.jpg" alt="" />
 									</span>
 									<header class="major">
 										<h3><a href="http://localhost/maker-site-backend/about.php" class="link">About Us</a></h3>
@@ -72,7 +102,7 @@
 								</article>
 								<article>
 									<span class="image">
-										<img src="http://localhost/maker-site-backend/past_event.php" alt="" />
+										<img src="images/pic02.jpg" alt="" />
 									</span>
 									<header class="major">
 										<h3><a href="http://localhost/maker-site-backend/past_event.php" class="link">Past Events</a></h3>
@@ -81,7 +111,7 @@
 								</article>
 								<article>
 									<span class="image">
-										<img src="images/future_events_home.jpg" alt="" />
+										<img src="images/pic07.jpg" alt="" />
 									</span>
 									<header class="major">
 										<h3><a href="http://localhost/maker-site-backend/future_event.php" class="link">Future Events</a></h3>
@@ -90,7 +120,7 @@
 								</article>
 								<article>
 									<span class="image">
-										<img src="images/tutorial_home.jpg" alt="" />
+										<img src="images/pic11.jpg" alt="" />
 									</span>
 									<header class="major">
 										<h3><a href="http://localhost/maker-site-backend/tutorial.php" class="link" >Tutorial</a></h3>
@@ -104,25 +134,25 @@
 						<div class="inner">
 							<section>
 
-								<form method="post" >
-									<div class="fields">
-										<div class="field half">
-											<label for="name">Name</label>
-											<input type="text" name="name" id="name" />
+                                <form method="post" action="#">
+										<div class="fields">
+											<div class="field half">
+												<label for="comment_name">Name</label>
+                                                <input type="text" name="comment_name" id="comment_name" />
+											</div>
+											<div class="field half">
+												<label for="comment_email">Email</label>
+                                                <input type="text" name="comment_email" id="comment_email" />
+											</div>
+											<div class="field">
+												<label for="comment_message">Message</label>
+												<textarea name="comment_message" id="comment_message" rows="6"></textarea>
+											</div>
 										</div>
-										<div class="field half">
-											<label for="email">Email</label>
-											<input type="text" name="email" id="email" />
-										</div>
-										<div class="field">
-											<label for="message">Message</label>
-											<textarea name="message" id="message" rows="6"></textarea>
-										</div>
-									</div>
-									<ul class="actions">
-										<li><input type="submit" value="Send Message" class="primary" /></li>
-										<li><input type="reset" value="Clear" /></li>
-									</ul>
+										<ul class="actions">
+											<li><input type="submit" name="submit" value="Send Message" class="primary" /></li>
+											<li><input type="reset" value="Clear" /></li>
+										</ul>
 								</form>
 
 							</section>
@@ -164,7 +194,7 @@
 									<span class="label">Facebook</span></a></li>
 							</ul>
 							<ul class="copyright">
-								<li>&copy; Vanderbilt Maker Club Dev Team</li><li>Design:Sunnie, Chang, Amanda</a></li>
+								<li>&copy; Vanderbilt Maker Club Dev Team</li><li>Design: Sunnie, Chang, Amanda</a></li>
 							</ul>
 						</div>
 					</footer>

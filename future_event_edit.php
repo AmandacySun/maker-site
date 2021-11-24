@@ -1,87 +1,78 @@
 
-<?php
-
-    if (isset($_POST['submit3'])) {
-        require_once("conn.php");
-        $query = "SELECT * FROM future_event " ;
-        try{
-            $prepared_stmt = $dbo->prepare($query);
-            $prepared_stmt->execute();
-            $result = $prepared_stmt->fetchAll();
-        }catch (PDOException $ex){ // Error in database processing.
-            echo $sql . "<br>" . $error->getMessage(); // HTTP 500 - Internal Server Error
-        }
-}
-?>
+<?php if (isset($_POST["submit3"])) {
+    require_once "conn.php";
+    $query = "SELECT * FROM future_event ";
+    try {
+        $prepared_stmt = $dbo->prepare($query);
+        $prepared_stmt->execute();
+        $result = $prepared_stmt->fetchAll();
+    } catch (PDOException $ex) {
+        // Error in database processing.
+        echo $sql . "<br>" . $error->getMessage(); // HTTP 500 - Internal Server Error
+    }
+} ?>
 
 
 
 
 <?php
-ini_set('display_errors', 1);
-ini_set('display_startup_errors', 1);
+ini_set("display_errors", 1);
+ini_set("display_startup_errors", 1);
 error_reporting(E_ALL);
 
-if (isset($_POST['submit'])) {
+if (isset($_POST["submit"])) {
+    require_once "conn.php";
 
-    require_once("conn.php");
-
-
-    $event_name = $_POST['event_name'];
-    $event_time = $_POST['event_time'];
-    $host_name = $_POST['host_name'];
-    $event_location = $_POST['event_location'];
-    $difficulty = $_POST['difficulty'];
-    $event_theme = $_POST['event_theme'];
-
-
-
+    $event_name = $_POST["event_name"];
+    $event_time = $_POST["event_time"];
+    $host_name = $_POST["host_name"];
+    $event_location = $_POST["event_location"];
+    $difficulty = $_POST["difficulty"];
+    $event_theme = $_POST["event_theme"];
 
     $query = "INSERT INTO future_event (event_id, event_name, event_time, host_name,event_location,difficulty,event_theme)
               VALUES (DEFAULT, :event_name, :event_time, :host_name,:event_location,:difficulty,:event_theme)";
 
-    try
-    {
-      $prepared_stmt = $dbo->prepare($query);
-      $prepared_stmt->bindValue(':event_name', $event_name, PDO::PARAM_STR);
-      $prepared_stmt->bindValue(':event_time', $event_time, PDO::PARAM_STR);
-      $prepared_stmt->bindValue(':host_name', $host_name, PDO::PARAM_STR);
-      $prepared_stmt->bindValue(':event_location', $event_location, PDO::PARAM_STR);
-      $prepared_stmt->bindValue(':difficulty', $difficulty, PDO::PARAM_STR);
-      $prepared_stmt->bindValue(':event_theme', $event_theme, PDO::PARAM_STR);
-      $prepared_stmt->execute();
-    }
-    catch (PDOException $ex)
-    { // Error in database processing.
-      echo $sql . "<br>" . $error->getMessage(); // HTTP 500 - Internal Server Error
+    try {
+        $prepared_stmt = $dbo->prepare($query);
+        $prepared_stmt->bindValue(":event_name", $event_name, PDO::PARAM_STR);
+        $prepared_stmt->bindValue(":event_time", $event_time, PDO::PARAM_STR);
+        $prepared_stmt->bindValue(":host_name", $host_name, PDO::PARAM_STR);
+        $prepared_stmt->bindValue(
+            ":event_location",
+            $event_location,
+            PDO::PARAM_STR
+        );
+        $prepared_stmt->bindValue(":difficulty", $difficulty, PDO::PARAM_STR);
+        $prepared_stmt->bindValue(":event_theme", $event_theme, PDO::PARAM_STR);
+        $prepared_stmt->execute();
+    } catch (PDOException $ex) {
+        // Error in database processing.
+        echo $sql . "<br>" . $error->getMessage(); // HTTP 500 - Internal Server Error
     }
 }
 ?>
 
 
 <?php
-ini_set('display_errors', 1);
-ini_set('display_startup_errors', 1);
+ini_set("display_errors", 1);
+ini_set("display_startup_errors", 1);
 error_reporting(E_ALL);
 
-if (isset($_POST['submit2'])) {
+if (isset($_POST["submit2"])) {
+    require_once "conn.php";
 
-    require_once("conn.php");
-
-
-    $event_name = $_POST['event_name'];
+    $event_name = $_POST["event_name"];
 
     $query = "DELETE FROM future_event WHERE event_name = :event_name";
 
-    try
-    {
-      $prepared_stmt = $dbo->prepare($query);
-      $prepared_stmt->bindValue(':event_name', $event_name, PDO::PARAM_STR);
-      $prepared_stmt->execute();
-    }
-    catch (PDOException $ex)
-    { // Error in database processing.
-      echo $sql . "<br>" . $error->getMessage(); // HTTP 500 - Internal Server Error
+    try {
+        $prepared_stmt = $dbo->prepare($query);
+        $prepared_stmt->bindValue(":event_name", $event_name, PDO::PARAM_STR);
+        $prepared_stmt->execute();
+    } catch (PDOException $ex) {
+        // Error in database processing.
+        echo $sql . "<br>" . $error->getMessage(); // HTTP 500 - Internal Server Error
     }
 }
 ?>
@@ -124,7 +115,7 @@ if (isset($_POST['submit2'])) {
 						<li><a href="http://localhost/maker-site-backend/tutorial.php">Tutorials</a></li>
 					</ul>
 					<ul class="actions stacked">
-						<li><a href="login.html" class="button fit">Log In As Administrator</a></li>
+						<li><a href="admin_page.php" class="button fit">Back To Administrator Page</a></li>
 					</ul>
 				</nav>
 
@@ -171,16 +162,10 @@ if (isset($_POST['submit2'])) {
                                                   <input type="text" name="difficulty" id="difficulty" placeholder="Difficulty Level Here"/>
                                                    <div> &nbsp  &nbsp</div>
                                                    <input type="text" name="event_theme" id="event_theme" placeholder="Event Theme Here"/>
-                                                                                                      <div> &nbsp  &nbsp</div>
+                                                   <div> &nbsp  &nbsp</div>
+                                                   <input type="submit" name="submit" id="submit" value="Add">
 
-                                                  <div> &nbsp  &nbsp</div>
-                                                  <div class="row">
-                                                    <div class="col-5"></div>
-                                                    <div class="col-2">
-                                                        <input type="submit" name="submit" id="submit" value="Add">
-                                                    </div>
-                                                    <div class="col-5"></div>
-                                                 </div>
+
 
                                                 </form>
 
@@ -191,31 +176,14 @@ if (isset($_POST['submit2'])) {
                                                   </label>
                                                   <input type="text" name="event_name" id="event_name" placeholder="Event Name Here"/>
                                                    <div> &nbsp  &nbsp</div>
-
-
-                                                  <div> &nbsp  &nbsp</div>
-                                                  <div class="row">
-                                                    <div class="col-5"></div>
-                                                    <div class="col-2">
-                                                        <input type="submit" name="submit2" id="submit2" value="Delete">
-                                                    </div>
-                                                    <div class="col-5"></div>
-                                                 </div>
-
+                                                   <input type="submit" name="submit2" id="submit2" value="Delete">
                                                    <div> &nbsp  &nbsp</div>
-                                                  <div class="row">
-                                                    <div class="col-5"></div>
-                                                    <div class="col-2">
-                                                        <input type="submit" name="submit3" id="submit3" value="Show All Future Events">
-                                                    </div>
-                                                    <div class="col-5"></div>
-                                                 </div>
+                                                   <input type="submit" name="submit3" id="submit3" value="Show All Future Events">
 
                                                 </form>
 
-                                            <?php
-                                                if (isset($_POST['submit3'])) {
-                                                  if ($result && $prepared_stmt->rowCount() > 0) { ?>
+                                            <?php if (isset($_POST["submit3"])) {
+                                                    if ($result && $prepared_stmt->rowCount() > 0 ) { ?>
 
                                                     <h2>All Future Events</h2>
 
@@ -232,7 +200,7 @@ if (isset($_POST['submit2'])) {
                                                       </thead>
                                                       <tbody>
 
-                                                <?php foreach ($result as $row) { ?>
+                                                <?php foreach ($result as $row ) { ?>
 
                                                       <tr>
                                                         <td><?php echo $row["event_name"]; ?></td>
@@ -250,7 +218,7 @@ if (isset($_POST['submit2'])) {
                                                 <?php } else { ?>
                                                     Sorry, no future events are available.
                                                   <?php }
-                                                } ?>
+                                            } ?>
 
 											</div>
 											</div>
@@ -264,7 +232,6 @@ if (isset($_POST['submit2'])) {
 							</div>
 
 
-						<!-- Table of Past Events -->
 
 				<!-- Contact -->
 
@@ -277,7 +244,7 @@ if (isset($_POST['submit2'])) {
 							<li><a href="#" class="icon brands alt fa-instagram"><span class="label">Instagram</span></a></li>
 						</ul>
 						<ul class="copyright">
-							<li>&copy; Untitled</li><li>Design:Sunnie, Chang, Amanda</a></li>
+							<li>&copy; Vanderbilt Maker Club Dev Team</li><li>Design:Sunnie, Chang, Amanda</a></li>
 						</ul>
 					</div>
 				</footer>

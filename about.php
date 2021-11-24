@@ -30,14 +30,6 @@ if (isset($_POST['submit'])) {
 }
 ?>
 
-
-
-
-
-
-
-
-
 <html>
 	<head>
 		<title>About Us</title>
@@ -60,20 +52,19 @@ if (isset($_POST['submit'])) {
 						<a href="#menu">Menu</a>
 					</nav>
 				</header>
-				<!-- Menu -->
-				<nav id="menu">
-                					<ul class="links">
-                						<li><a href="index.html">Home</a></li>
-                						<li><a href="http://localhost/maker-site-backend/about.php">About Us</a></li>
-                						<li><a href="http://localhost/maker-site-backend/past_event.php">Past Events</a></li>
-                						<li><a href="http://localhost/maker-site-backend/future_event.php">Future Events</a></li>
-                						<li><a href="http://localhost/maker-site-backend/tutorial.php">Tutorials</a></li>
-                					</ul>
-                					<ul class="actions stacked">
-                						<li><a href="login.html" class="button fit">Log In As Administrator</a></li>
-                					</ul>
-                				</nav>
 
+                <nav id="menu">
+					<ul class="links">
+						<li><a href="index.php">Home</a></li>
+						<li><a href="http://localhost/maker-site-backend/about.php">About Us</a></li>
+						<li><a href="http://localhost/maker-site-backend/past_event.php">Past Events</a></li>
+						<li><a href="http://localhost/maker-site-backend/future_event.php">Future Events</a></li>
+						<li><a href="http://localhost/maker-site-backend/tutorial.php">Tutorials</a></li>
+					</ul>
+					<ul class="actions stacked">
+						<li><a href="login.html" class="button fit">Log In As Administrator</a></li>
+					</ul>
+				</nav>
 
 
 				<!-- Banner -->
@@ -319,7 +310,7 @@ if (isset($_POST['submit'])) {
 									<li><a href="#" class="icon brands alt fa-instagram"><span class="label">Instagram</span></a></li>
 								</ul>
 								<ul class="copyright">
-									<li>&copy; Untitled</li><li>Design:Sunnie, Chang, Amanda</a></li>
+									<li>&copy; Vanderbilt Maker Club Dev Team</li><li>Design: Sunnie, Chang, Amanda</a></li>
 								</ul>
 							</div>
 						</footer>

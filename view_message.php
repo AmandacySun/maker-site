@@ -46,11 +46,13 @@
 					<ul class="links">
 						<li><a href="index.html">Home</a></li>
 						<li><a href="http://localhost/maker-site-backend/about.php">About Us</a></li>
-						<li><a href="http://localhost/maker-site-backend/past_event.php">Past Events</a></li>
+						<li><a href="http://localhost/maker-site-backend/past_event2.php">Past Events</a></li>
 						<li><a href="http://localhost/maker-site-backend/future_event.php">Future Events</a></li>
 						<li><a href="http://localhost/maker-site-backend/tutorial.php">Tutorials</a></li>
 					</ul>
-
+					<ul class="actions stacked">
+						<li><a href="admin_page.php" class="button fit">Back To Administrator Page</a></li>
+					</ul>
 				</nav>
 
 				<!-- Main -->

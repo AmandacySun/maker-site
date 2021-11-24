@@ -1,4 +1,52 @@
-<!DOCTYPE HTML>
+<?php session_start(); // we start sessions before output ?>
+
+<?php
+
+//    if($_SERVER["REQUEST_METHOD"] == "POST") {
+//       // username and password sent from form
+//
+//       $myusername = mysqli_real_escape_string($db,$_POST['username']);
+//       $mypassword = mysqli_real_escape_string($db,$_POST['user_password']);
+//
+//       $sql = "SELECT login_id FROM login WHERE username = '$myusername' and user_password = '$mypassword'";
+//       $result = mysqli_query($db,$sql);
+//       $row = mysqli_fetch_array($result,MYSQLI_ASSOC);
+//
+//       $count = mysqli_num_rows($result);
+//
+//       // If result matched $myusername and $mypassword, table row must be 1 row
+//
+//       if($count == 1) {
+//          //session_register("myusername");
+//          //$_SESSION['login_user'] = $myusername;
+//
+//          header("Location: http://localhost/maker-site-backend/admin_page.php");
+//       }else {
+//          //session_destroy();
+//          echo ("Error: that username and password combination does not match any currently within our database");
+//       }
+//    }
+ if (isset($_POST['submit'])) {
+        require_once("conn.php");
+        $username = $_POST['username'];
+        $user_password = $_POST['user_password'];
+
+        $query = "SELECT * FROM login WHERE username=:username AND user_password=:user_password" ;
+        try{
+             $prepared_stmt = $dbo->prepare($query);
+             $prepared_stmt->bindValue(':username', $username, PDO::PARAM_STR);
+             $prepared_stmt->bindValue(':user_password', $password, PDO::PARAM_STR);
+             $prepared_stmt->execute();
+             $result = $prepared_stmt->fetchAll();
+             if (isset($_POST['submit'])) {
+                if ($result && $prepared_stmt->rowCount() > 0) {
+                    header(' Location: http://localhost/maker-site-backend/admin_page.php');
+                }}
+        }catch (PDOException $ex){ // Error in database processing.
+            echo $sql . "<br>" . $error->getMessage(); // HTTP 500 - Internal Server Error
+        }
+ }
+?>
 
 <html>
 <head>
@@ -16,7 +64,7 @@
     <!-- Header -->
     <!-- Note: The "styleN" class below should match that of the banner element. -->
     <header id="header" class="alt">
-        <a href="index.php" class="logo"><strong>Vanderbilt Maker Club
+        <a href="index.html" class="logo"><strong>Vanderbilt Maker Club
         </strong> </a>
         <nav>
             <a href="#menu">Menu</a>
@@ -25,7 +73,7 @@
     <!-- Menu -->
     <nav id="menu">
         <ul class="links">
-            <li><a href="index.php">Home</a></li>
+            <li><a href="index.html">Home</a></li>
             <li><a href="http://localhost/maker-site-backend/about.php">About Us</a></li>
             <li><a href="http://localhost/maker-site-backend/past_event.php">Past Events</a></li>
             <li><a href="http://localhost/maker-site-backend/future_event.php">Future Events</a></li>
@@ -54,7 +102,7 @@
                     <div class="col-10">
 
                         <div class="form-group">
-                            <form>
+                            <form method = "post">
                             <div class="row"></div>
 
                             <div class="row">
@@ -65,20 +113,21 @@
                                 <div> &nbsp  &nbsp</div>
 
                             <div class="row">
-                                <label class="col-2" for="password">Password:</label>
-                                <input class="col-8" type="password" id="password" name="password" placeholder="Required" />
+                                <label class="col-2" for="user_password">Password:</label>
+                                <input class="col-8" type="password" id="user_password" name="user_password" placeholder="Required" />
                                 <div class="col-2"></div>
                             </div>
                                 <div> &nbsp  &nbsp</div>
 
                                 <div class="row">
                                     <div class="col-3"></div>
-                                    <button class="col-6"  type="button" id="submitBtn" onclick="check(this.form)">Log In</button>
+                                    <button class="col-6"  type="submit" name="submit" id="submit" >Log In</button>
                                     <div class="col-3" ></div>
                                 </div>
 
+
                             </form>
-                        </div>
+               </div>
                     </div>
                     <div class = "col-1"></div>
                 </div>
@@ -116,17 +165,7 @@
     <script src="assets/js/util.js"></script>
     <script src="assets/js/main.js"></script>
 
-    <script language="javascript">
-    function check(form) { /*function to check userid & password*/
-        /*the following code checkes whether the entered userid and password are matching*/
-        if(form.username.value === "username" && form.password.value === "password") {
-            window.open('http://localhost/maker-site-backend/admin_page.php')/*opens the target page while Id & password matches*/
-        }
-        else {
-            alert("Wrong Password or Username! Please try again!")/*displays error message*/
-        }
-    }
-    </script>
+
 </div>
 </body>
 </html>

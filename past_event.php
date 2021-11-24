@@ -1,4 +1,22 @@
 
+<?php
+
+
+        require_once("conn.php");
+        $query1 = "SELECT * FROM past_event " ;
+        try{
+            $prepared_stmt1 = $dbo->prepare($query1);
+            $prepared_stmt1->execute();
+            $result1 = $prepared_stmt1->fetchAll();
+        }catch (PDOException $ex){ // Error in database processing.
+            echo $sql . "<br>" . $error->getMessage(); // HTTP 500 - Internal Server Error
+        }
+
+?>
+
+
+
+
 
 <?php
 
@@ -18,7 +36,37 @@
         }
 }
 ?>
+<?php
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
 
+if (isset($_POST['submit2'])) {
+
+    require_once("conn.php");
+
+    $comment_name = $_POST['comment_name'];
+    $comment_email = $_POST['comment_email'];
+    $comment_message = $_POST['comment_message'];
+
+
+    $query = "INSERT INTO user_comment (comment_id, comment_name, comment_email,comment_message)
+              VALUES (DEFAULT, :comment_name, :comment_email, :comment_message)";
+
+    try
+    {
+      $prepared_stmt = $dbo->prepare($query);
+$prepared_stmt->bindValue(':comment_name', $comment_name, PDO::PARAM_STR);
+$prepared_stmt->bindValue(':comment_email', $comment_email, PDO::PARAM_STR);
+$prepared_stmt->bindValue(':comment_message', $comment_message, PDO::PARAM_STR);
+$prepared_stmt->execute();
+}
+catch (PDOException $ex)
+{ // Error in database processing.
+echo $sql . "<br>" . $error->getMessage(); // HTTP 500 - Internal Server Error
+}
+}
+?>
 
 
 
@@ -49,9 +97,9 @@
 				<!-- Menu -->
                 <nav id="menu">
 					<ul class="links">
-						<li><a href="index.html">Home</a></li>
+						<li><a href="index.php">Home</a></li>
 						<li><a href="http://localhost/maker-site-backend/about.php">About Us</a></li>
-						<li><a href="http://localhost/maker-site-backend/past_event2.php">Past Events</a></li>
+						<li><a href="http://localhost/maker-site-backend/past_event.php">Past Events</a></li>
 						<li><a href="http://localhost/maker-site-backend/future_event.php">Future Events</a></li>
 						<li><a href="http://localhost/maker-site-backend/tutorial.php">Tutorials</a></li>
 					</ul>
@@ -111,7 +159,7 @@
                                                 if (isset($_POST['submit'])) {
                                                   if ($result && $prepared_stmt->rowCount() > 0) { ?>
 
-                                                    <h2>Results</h2>
+                                                    <h2>Past Events Hosted by <?php echo $_POST['host_name']; ?></h2>
 
                                                     <table>
                                                       <thead>
@@ -148,6 +196,47 @@
                                                   <?php }
                                                 } ?>
 
+
+
+                                               <?php
+
+                                                  if ($result1 && $prepared_stmt1->rowCount() > 0) { ?>
+
+                                                    <h2>All Past Events</h2>
+
+                                                    <table>
+                                                      <thead>
+                                                		<tr>
+                                                          <th>Event Name</th>
+                                                          <th>Event Time</th>
+                                                          <th>Host</th>
+                                                          <th>Event Location</th>
+                                                          <th>Difficulty Level</th>
+                                                          <th>Event Theme</th>
+                                                		</tr>
+                                                      </thead>
+                                                      <tbody>
+
+                                                <?php foreach ($result1 as $row1) { ?>
+
+                                                      <tr>
+                                                        <td><?php echo $row1["event_name"]; ?></td>
+                                                        <td><?php echo $row1["event_time"]; ?></td>
+                                                        <td><?php echo $row1["host_name"]; ?></td>
+                                                        <td><?php echo $row1["event_location"]; ?></td>
+                                                        <td><?php echo $row1["difficulty"]; ?></td>
+                                                        <td><?php echo $row1["event_theme"]; ?></td>
+
+                                                      </tr>
+                                                <?php } ?>
+                                                      </tbody>
+                                                  </table>
+
+                                                <?php } else { ?>
+                                                    Sorry, no past events are available.
+                                                  <?php }  ?>
+
+
 											</div>
 											</div>
 										</div>
@@ -166,26 +255,26 @@
 				<section id="contact">
 					<div class="inner">
 						<section>
-							<form method="post" action="#">
-								<div class="fields">
-									<div class="field half">
-										<label for="name">Name</label>
-										<input type="text" name="name" id="name" />
-									</div>
-									<div class="field half">
-										<label for="email">Email</label>
-										<input type="text" name="email" id="email" />
-									</div>
-									<div class="field">
-										<label for="message">Message</label>
-										<textarea name="message" id="message" rows="6"></textarea>
-									</div>
-								</div>
-								<ul class="actions">
-									<li><input type="submit" value="Send Message" class="primary" /></li>
-									<li><input type="reset" value="Clear" /></li>
-								</ul>
-							</form>
+                        <form method="post" action="#">
+										<div class="fields">
+											<div class="field half">
+												<label for="comment_name">Name</label>
+                                                <input type="text" name="comment_name" id="comment_name" />
+											</div>
+											<div class="field half">
+												<label for="comment_email">Email</label>
+                                                <input type="text" name="comment_email" id="comment_email" />
+											</div>
+											<div class="field">
+												<label for="comment_message">Message</label>
+												<textarea name="comment_message" id="comment_message" rows="6"></textarea>
+											</div>
+										</div>
+										<ul class="actions">
+											<li><input type="submit" name="submit2" value="Send Message" class="primary" /></li>
+											<li><input type="reset" value="Clear" /></li>
+										</ul>
+						</form>
 						</section>
 						<section class="split">
 							<section>
@@ -223,7 +312,7 @@
 							<li><a href="#" class="icon brands alt fa-instagram"><span class="label">Instagram</span></a></li>
 						</ul>
 						<ul class="copyright">
-							<li>&copy; Untitled</li><li>Design:Sunnie, Chang, Amanda</a></li>
+							<li>&copy; Vanderbilt Maker Club Dev Team</li><li>Design: Sunnie, Chang, Amanda</a></li>
 						</ul>
 					</div>
 				</footer>
